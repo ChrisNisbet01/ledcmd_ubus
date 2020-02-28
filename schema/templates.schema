@@ -1,0 +1,57 @@
+{
+	"templates": {
+		"type": "object",
+		"properties": {
+			"led_priority": {
+				"type": "string",
+                "enum": {
+                    "normal": {
+                        "title": "Normal"
+                    },
+                    "alternate": {
+                        "title": "Alternate"
+                    },
+                    "locked": {
+                        "title": "Locked"
+                    }
+                },
+                "default": "normal"
+			},
+            "state": {
+                "type": "string",
+                "enum": {
+                    "off": { 
+                        "title": "Off"
+                    },
+                    "on": { 
+                        "title": "On"
+                    },
+                    "flash": { 
+                        "title": "Flash"
+                    },
+                    "fast-flash": { 
+                        "title": "Fast flash"
+                    },
+                }
+            },
+            "flash_type": {
+                "type": "string",
+                "enum": {
+                    "none": { 
+                        "title": "None"
+                    },
+                    "one_shot": { 
+                        "title": "One shot"
+                    },
+                    "flash_type_fast": { 
+                        "title": "Fast Flash"
+                    },
+                    "flash_type_slow": { 
+                        "title": "Slow flash"
+                    },
+                }
+            }
+		}
+	}
+}
+

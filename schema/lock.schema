@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "leds": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "lock_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "lock_id"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "leds"
+  ]
+}
+
+/* e.g. */
+{
+    "leds" : [
+        {
+            "name": "SIM1",
+            "lock_id": "abc"
+        }
+    ]
+}

@@ -1,0 +1,3 @@
+*.d
+/ledcmd_cli
+*.o

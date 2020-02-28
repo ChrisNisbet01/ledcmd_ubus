@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "sim_changed": {
+      "type": "object",
+      "properties": {
+        "module": {
+          "type": "integer"
+        },
+        "sim": {
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sim"
+      ]
+    }
+  },
+  "required": [
+    "sim_change"
+  ]
+}
+

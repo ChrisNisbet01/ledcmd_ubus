@@ -1,0 +1,16 @@
+{
+    "aliases" : [
+        {
+            "name": "usb1",
+            "aliases": [
+                "tp-link:green:usb1"
+            ]
+        },
+        {
+            "name": "usb",
+            "aliases": [
+                "tp-link:green:usb2"
+            ]
+        }
+    ]
+}

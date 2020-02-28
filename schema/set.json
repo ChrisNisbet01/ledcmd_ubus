@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "leds": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "state": {
+              "$template": "/templates/state"
+            },
+            "lock_id": {
+              "type": "string"
+            },
+            "led_priority": {
+              "$template": "/templates/led_priority"
+            },
+            "flash_type": {
+                "$template": "/templates/flash_type"
+            },
+            "flash_time_ms": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "name",
+            "state"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "leds"
+  ]
+}
+/* e.g. */
+{
+    "leds" : [
+        {
+            "name": "SIM1",
+            "state": "on",
+            "lock_id": "lock",
+            "led_priority": "normal",
+            "flash_type": "flash_type_fast",
+            "flash_time_ms": 50
+        }
+    ]
+}
+

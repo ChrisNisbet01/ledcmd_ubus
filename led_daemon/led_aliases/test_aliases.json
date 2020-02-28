@@ -1,0 +1,64 @@
+{
+    "aliases" : [
+        {
+            "name": "cylon",
+            "aliases": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ]
+        },
+        {
+            "name": "front_panel",
+            "aliases": [
+                "2",
+                "3",
+                "4",
+            ]
+        },
+        {
+            "name": "sim1",
+            "aliases": [
+                "1"
+            ]
+        },
+        {
+            "name": "sim21",
+            "aliases": [
+                "2"
+            ]
+        },
+        {
+            "name": "cylon1",
+            "aliases": [
+                "1"
+            ]
+        },
+        {
+            "name": "cylon2",
+            "aliases": [
+                "2"
+            ]
+        },
+        {
+            "name": "cylon3",
+            "aliases": [
+                "3"
+            ]
+        },
+        {
+            "name": "cylon4",
+            "aliases": [
+                "4"
+            ]
+        },
+        {
+            "name": "cylon5",
+            "aliases": [
+                "5"
+            ]
+        }
+    ]
+}

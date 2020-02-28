@@ -1,0 +1,89 @@
+{
+    "patterns" : [
+        {
+            "name": "flash_5g",
+            "pattern": [
+                {
+                    "time_ms": 2900,
+                    "leds": [
+                        {
+                        "name": "tp-link:green:wlan5g",
+                        "state": "fast-flash"
+                        },
+                        {
+                        "name": "tp-link:green:wlan2g",
+                        "state": "off"
+                        }
+                    ]
+                }
+            ],
+            "end_state": {
+                "leds": [
+                    {
+                    "name": "tp-link:green:wlan5g",
+                    "state": "on"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "flash_2g",
+            "pattern": [
+                {
+                    "time_ms": 2900,
+                    "leds": [
+                        {
+                        "name": "tp-link:green:wlan2g",
+                        "state": "fast-flash"
+                        },
+                        {
+                        "name": "tp-link:green:wlan5g",
+                        "state": "off"
+                        }
+                    ]
+                }
+            ],
+            "end_state": {
+                "leds": [
+                    {
+                    "name": "tp-link:green:wlan2g",
+                    "state": "on"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "wdr_firmware_update",
+            "start_state": {
+                "leds": [
+                    {
+                        "name": "front_panel",
+                        "priority": "critical",
+                        "state": "off"
+                    }
+                ]
+            },
+            "end_state": {
+                "leds": [
+                    {
+                        "name": "front_panel",
+                        "priority": "critical",
+                        "state": "off"
+                    }
+                ]
+            },
+            "pattern": [
+                {
+                    "time_ms": 10000,
+                    "leds": [
+                        {
+                            "name": "front_panel",
+                            "priority": "critical",
+                            "state": "fast-flash"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,3 @@
+*.d
+/ledcmd_daemon
+*.o

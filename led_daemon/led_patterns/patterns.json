@@ -1,0 +1,254 @@
+{
+    "patterns" : [
+        {
+            "name": "flash_sim_1",
+            "pattern": [
+                {
+                    "time_ms": 2900,
+                    "leds": [
+                        {
+                        "name": "sim1",
+                        "state": "fast-flash"
+                        },
+                        {
+                        "name": "sim2",
+                        "state": "off"
+                        }
+                    ]
+                }
+            ],
+            "end_state": {
+                "leds": [
+                    {
+                    "name": "sim1",
+                    "state": "on"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "flash_sim_2",
+            "pattern": [
+                {
+                    "time_ms": 2900,
+                    "leds": [
+                        {
+                        "name": "sim2",
+                        "state": "fast-flash"
+                        },
+                        {
+                        "name": "sim1",
+                        "state": "off"
+                        }
+                    ]
+                }
+            ],
+            "end_state": {
+                "leds": [
+                    {
+                    "name": "sim2",
+                    "state": "on"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "flash_serial_data_led",
+            "repeat": true,
+            "pattern": [
+                {
+                    "time_ms": 30,
+                    "leds": [
+                        {
+                        "name": "sim1",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 30,
+                    "leds": [
+                        {
+                        "name": "sim1",
+                        "state": "off"
+                        }
+                    ]
+                }
+            ],
+            "end_state": {
+                "leds": [
+                    {
+                    "name": "sim1",
+                    "state": "off"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "cylon",
+            "repeat": true,
+            "pattern": [
+                {
+                    "time_ms": 300,
+                    "leds": [
+                        {
+                        "name": "cylon1",
+                        "state": "on"
+                        },
+                        {
+                        "name": "cylon2",
+                        "state": "off"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 100,
+                    "leds": [
+                        {
+                        "name": "cylon1",
+                        "state": "off"
+                        },
+                        {
+                        "name": "cylon2",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 30,
+                    "leds": [
+                        {
+                        "name": "cylon2",
+                        "state": "off"
+                        },
+                        {
+                        "name": "cylon3",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 100,
+                    "leds": [
+                        {
+                        "name": "cylon3",
+                        "state": "off"
+                        },
+                        {
+                        "name": "cylon4",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 300,
+                    "leds": [
+                        {
+                        "name": "cylon4",
+                        "state": "off"
+                        },
+                        {
+                        "name": "cylon5",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 100,
+                    "leds": [
+                        {
+                        "name": "cylon4",
+                        "state": "on"
+                        },
+                        {
+                        "name": "cylon5",
+                        "state": "off"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 30,
+                    "leds": [
+                        {
+                        "name": "cylon3",
+                        "state": "on"
+                        },
+                        {
+                        "name": "cylon4",
+                        "state": "off"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 100,
+                    "leds": [
+                        {
+                        "name": "cylon2",
+                        "state": "on"
+                        },
+                        {
+                        "name": "cylon3",
+                        "state": "off"
+                        }
+                    ]
+                }
+            ],
+            "end_state": {
+                "leds": [
+                    {
+                    "name": "cylon1",
+                    "state": "off"
+                    },
+                    {
+                    "name": "cylon2",
+                    "state": "off"
+                    },
+                    {
+                    "name": "cylon3",
+                    "state": "off"
+                    },
+                    {
+                    "name": "cylon4",
+                    "state": "off"
+                    },
+                    {
+                    "name": "cylon5",
+                    "state": "off"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "firmware_update",
+            "play_count": 10,
+            "pattern": [
+                {
+                    "time_ms": 200,
+                    "leds": [
+                        {
+                        "name": "front_panel",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 200,
+                    "leds": [
+                        {
+                        "name": "front_panel",
+                        "state": "off"
+                        }
+                    ]
+                }
+            ],
+            "end_state": {
+                "leds": [
+                    {
+                    "name": "front_panel",
+                    "state": "off"
+                    }
+                ]
+            }
+        }
+    ]
+}

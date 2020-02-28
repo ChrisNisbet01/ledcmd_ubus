@@ -1,0 +1,6 @@
+/ledcmd_cli
+/ledcmd_daemon
+*.d
+*.vpj
+*.o
+*.so
