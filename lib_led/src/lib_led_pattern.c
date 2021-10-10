@@ -2,7 +2,7 @@
 #include "lib_led_private.h"
 #include "string_constants.h"
 
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_utils.h>
 
 static bool
 send_ubus_led_pattern_request(
