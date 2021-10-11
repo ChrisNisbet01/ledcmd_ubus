@@ -144,25 +144,23 @@ static void
 print_led_name(char const * const led_name, void * const user_context)
 {
 	struct led_name_cb_context * const context = user_context;
-	FILE * const fp = context->fp;
 
 	if (led_name != NULL) {
-		fprintf(fp, "%s%s", context->first ? "" : " ", led_name);
+		fprintf(stdout, "%s%s", context->first ? "" : " ", led_name);
 		context->first = false;
 	}
 }
 
 static void
-print_led_names(struct ledcmd_ctx_st const * const ctx, FILE * const fp)
+print_led_names(struct ledcmd_ctx_st const * const ctx)
 {
 	struct led_name_cb_context context = {
-		.first = true,
-		.fp = fp
+		.first = true
 	};
 
 	led_get_names(ctx, print_led_name, &context);
 	if (!context.first) {
-		fputs("\n", fp);
+		fputs("\n", stdout);
 	}
 }
 
@@ -267,7 +265,7 @@ get_set_request(
  * e.g. Some platforms don't actually support fast flashing in the LED driver.
  */
 static void
-usage(struct ledcmd_ctx_st const * const ctx, FILE * const fp)
+usage(FILE * const fp)
 {
 	fprintf(fp,
 		"usage:  ledcmd [-h?]\n"
@@ -291,9 +289,6 @@ usage(struct ledcmd_ctx_st const * const ctx, FILE * const fp)
 		"\t-a    altbit  - alt LED mode applies to following commands\n"
 		"\t-A    ~altbit - alt LED mode does not apply to following commands\n"
 		"\n");
-	if (ctx != NULL) {
-		print_led_names(ctx, fp);
-	}
 }
 
 int
@@ -415,7 +410,7 @@ main(int argc, char *argv[])
 			break;
 
 		case 'l':
-			print_led_names(ctx, stdout);
+			print_led_names(ctx);
 			result = EXIT_SUCCESS;
 			goto done;
 
@@ -426,12 +421,12 @@ main(int argc, char *argv[])
 
 		case '?':
 		case 'h':
-			usage(ctx, stdout);
+			usage(stdout);
 			result = EXIT_SUCCESS;
 			goto done;
 
 		default:
-			usage(ctx, stderr);
+			usage(stderr);
 			result = EXIT_FAILURE;
 			goto done;
 
@@ -439,7 +434,7 @@ main(int argc, char *argv[])
 	}
 
 	if (argc < 3 || optind != argc) {
-		usage(ctx, stderr);
+		usage(stderr);
 		result = EXIT_FAILURE;
 		goto done;
 	}
