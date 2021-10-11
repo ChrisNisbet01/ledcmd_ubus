@@ -3,7 +3,6 @@
 #include "string_constants.h"
 
 #include <ubus_utils/ubus_utils.h>
-#include <libubus.h>
 #include <libubox/blobmsg_json.h>
 
 #include <stdlib.h>
@@ -35,26 +34,13 @@ ledcmd_ubus_invoke(
 }
 
 void
-led_deinit(struct ledcmd_ctx_st const * const ctx)
+led_deinit(struct ledcmd_ctx_st * const ctx)
 {
-	if (ctx == NULL) {
-		goto done;
-	}
-
-	struct ledcmd_ctx_st * const writeable_ctx = UNCONST(ctx);
-
-	if (writeable_ctx->ubus_ctx != NULL) {
-		ubus_free(writeable_ctx->ubus_ctx);
-		writeable_ctx->ubus_ctx = NULL;
-		free(writeable_ctx);
-	}
-
-done:
-	return;
+    free(ctx);
 }
 
-struct ledcmd_ctx_st const *
-led_init(void)
+struct ledcmd_ctx_st *
+led_init(struct ubus_context * const ubus_ctx)
 {
 	bool success;
 	struct ledcmd_ctx_st * ctx = calloc(1, sizeof *ctx);
@@ -64,11 +50,7 @@ led_init(void)
 		goto done;
 	}
 
-	ctx->ubus_ctx = ubus_connect(NULL);
-	if (ctx->ubus_ctx == NULL) {
-		success = false;
-		goto done;
-	}
+	ctx->ubus_ctx = ubus_ctx;
 
 	success =
 		ubus_lookup_id(

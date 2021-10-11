@@ -227,8 +227,14 @@ get_set_request(
 }
 
 #define led_query(ledcmd_ctx, led_name) \
-	get_set_request( \
-		ledcmd_ctx, _led_get, NULL, led_name, NULL, NULL, false)
+	({ \
+		bool _res; \
+		do { \
+			_res = get_set_request( \
+				ledcmd_ctx, _led_get, NULL, led_name, NULL, NULL, false); \
+		} while (0); \
+		_res; \
+	})
 
 #define led_set_common(ledcmd_ctx, state, led_name, lock_id, led_priority, brief) \
 	get_set_request( \
@@ -285,7 +291,9 @@ usage(struct ledcmd_ctx_st const * const ctx, FILE * const fp)
 		"\t-a    altbit  - alt LED mode applies to following commands\n"
 		"\t-A    ~altbit - alt LED mode does not apply to following commands\n"
 		"\n");
-	print_led_names(ctx, fp);
+	if (ctx != NULL) {
+		print_led_names(ctx, fp);
+	}
 }
 
 int
@@ -295,15 +303,25 @@ main(int argc, char *argv[])
 	int result;
 	char const * lock_id = NULL;
 	char const * led_priority = _led_priority_normal;
-	struct ledcmd_ctx_st const * const ctx = led_init();
+	struct ubus_context * ubus_ctx = NULL;
+	struct ledcmd_ctx_st * ctx = NULL;
 
-	if (ctx == NULL) {
-		fprintf(stderr, "Unable to connect to ubus\n");
+	ubus_ctx = ubus_connect(NULL);
+	if (ubus_ctx == NULL)
+	{
+		fprintf(stderr, "Unable to connect to UBUS\n");
 		result = EXIT_FAILURE;
 		goto done;
 	}
 
-	while ((c = getopt(argc, argv, "?haAn:N:lLs:o:O:f:F:q:k:K:i:")) != -1) {
+	ctx = led_init(ubus_ctx);
+	if (ctx == NULL) {
+		fprintf(stderr, "Unable to connect to LED daemon\n");
+		result = EXIT_FAILURE;
+		goto done;
+	}
+
+	while ((c = getopt(argc, argv, "aAn:N:lLs:o:O:f:F:q:k:K:i:")) != -1) {
 		switch (c) {
 		case 'n':
 			led_activate_alternate_priority(ctx, optarg);
@@ -430,6 +448,7 @@ main(int argc, char *argv[])
 
 done:
 	led_deinit(ctx);
+	ubus_free(ubus_ctx);
 
 	return result;
 }
