@@ -1,6 +1,6 @@
 #include "led_lock.h"
 
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_utils.h>
 
 static bool
 create_led_lock_id(

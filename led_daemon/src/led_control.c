@@ -6,7 +6,7 @@
 #include "platform_leds_plugin.h"
 
 #include <lib_led/string_constants.h>
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_utils.h>
 
 #include <stdlib.h>
 #include <string.h>

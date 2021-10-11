@@ -2,7 +2,7 @@
 #include "led_patterns.h"
 #include "led_priorities.h"
 
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_utils.h>
 #include <lib_led/string_constants.h>
 #include <libubox/avl.h>
 #include <string.h>

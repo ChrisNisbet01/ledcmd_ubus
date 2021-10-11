@@ -1,6 +1,6 @@
 #include "led_colours.h"
 
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_utils.h>
 
 #include <ubus_common.h>
 

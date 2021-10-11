@@ -8,7 +8,7 @@
 #include "platform_specific.h"
 #include "priorities.h"
 
-#include <libubus_utils/ubus_connection.h>
+#include <ubus_utils/ubus_connection.h>
 #include <libubus.h>
 #include <libubox/avl.h>
 #include <libubox/uloop.h>

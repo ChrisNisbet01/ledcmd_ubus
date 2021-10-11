@@ -1,7 +1,7 @@
 #include "led_priorities.h"
 
 #include <lib_led/string_constants.h>
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_utils.h>
 
 #include <stddef.h>
 #include <string.h>

@@ -17,12 +17,10 @@ add_compile_options(
 include(GNUInstallDirs)
 
 find_library(BLOBMSG_JSON blobmsg_json CONFIG REQUIRED)
-find_package(lib_led CONFIG REQUIRED)
+find_package(libled CONFIG REQUIRED)
 find_library(UBOX ubox)
 find_library(UBUS ubus)
 find_package(ubus_utils CONFIG REQUIRED)
-
-message(STATUS "blbmsg_json ${BLOBMSG_JSON}")
 
 SET(SOURCES 
   ledcmd_cli.c
@@ -31,7 +29,7 @@ SET(SOURCES
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
-  lib_led
+  led
   ubus_utils
   ${BLOBMSG_JSON}
   ${UBOX}

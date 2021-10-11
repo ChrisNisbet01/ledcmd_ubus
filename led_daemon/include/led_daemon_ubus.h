@@ -3,7 +3,7 @@
 
 #include "led_control.h"
 
-#include <libubus_utils/ubus_connection.h>
+#include <ubus_utils/ubus_connection.h>
 
 #include <stdbool.h>
 

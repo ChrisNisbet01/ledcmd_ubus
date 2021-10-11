@@ -52,10 +52,7 @@ log_error(char const * const fmt, ...)
 		goto done;
 	}
 
-	struct logging_plugin_methods_st const * const plugin_methods =
-	    logging_context->plugin_methods;
-
-	if (plugin_methods == NULL) {
+	if (logging_context->plugin_methods == NULL) {
 		res = -1;
 		goto done;
 	}
@@ -63,8 +60,9 @@ log_error(char const * const fmt, ...)
 	va_list args;
 
 	va_start(args, fmt);
-	res = plugin_methods->log_error(
-	    logging_context->plugin_context, fmt, args);
+	res = logging_context
+			->plugin_methods
+			->log_error(logging_context->plugin_context, fmt, args);
 	va_end(args);
 
 done:
@@ -81,10 +79,7 @@ log_info(char const * const fmt, ...)
 		goto done;
 	}
 
-	struct logging_plugin_methods_st const * const plugin_methods =
-	    logging_context->plugin_methods;
-
-	if (plugin_methods == NULL) {
+	if (logging_context->plugin_methods == NULL) {
 		res = -1;
 		goto done;
 	}
@@ -92,8 +87,9 @@ log_info(char const * const fmt, ...)
 	va_list args;
 
 	va_start(args, fmt);
-	res = plugin_methods->log_info(
-	    logging_context->plugin_context, fmt, args);
+	res = logging_context
+			->plugin_methods
+			->log_info(logging_context->plugin_context, fmt, args);
 	va_end(args);
 
 done:
@@ -110,16 +106,13 @@ log_init(char const * const program_name, int const a, int const b)
 		goto done;
 	}
 
-	struct logging_plugin_methods_st const * const plugin_methods =
-	    logging_context->plugin_methods;
-
-	if (plugin_methods == NULL) {
+	if (logging_context->plugin_methods == NULL) {
 		res = -1;
 		goto done;
 	}
 
 	logging_context->plugin_context =
-		plugin_methods->log_init(program_name, a, b);
+		logging_context->plugin_methods->log_init(program_name, a, b);
 
 	res = 0;
 
@@ -134,11 +127,9 @@ logging_plugin_unload(void)
 		goto done;
 	}
 
-	struct logging_plugin_methods_st const * const plugin_methods =
-	    logging_context->plugin_methods;
-
-	if (plugin_methods != NULL) {
-		plugin_methods->log_unload(logging_context->plugin_context);
+	if (logging_context->plugin_methods != NULL) {
+		logging_context->plugin_methods
+			->log_unload(logging_context->plugin_context);
 	}
 
 	if (logging_context->lib_handle != NULL) {

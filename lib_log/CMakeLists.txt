@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(libled VERSION 1.0.0 DESCRIPTION "UBUS LED library")
+project(liblog VERSION 1.0.0 DESCRIPTION "Logging plugin library")
 
 set(CMAKE_C_COMPILER "gcc")
 
@@ -16,16 +16,11 @@ add_compile_options(
 
 include(GNUInstallDirs)
 
-find_package(ubus_utils CONFIG REQUIRED)
-
 SET(LIB_SOURCES 
-  src/lib_led.c
-  src/lib_led_control.c
-  src/lib_led_pattern.c
-  src/string_constants.c
+  src/lib_log.c
 )
 
-SET(LIB_NAME led)
+SET(LIB_NAME log)
 
 add_library(${LIB_NAME} SHARED ${LIB_SOURCES})
 
@@ -49,10 +44,8 @@ install(TARGETS ${LIB_NAME}
 )
 
 install(FILES 
-  include/lib_led.h
-  include/lib_led_control.h 
-  include/lib_led_pattern.h 
-  include/string_constants.h 
+  include/log.h
+  include/logging_plugin.h 
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
 )
 

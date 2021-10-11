@@ -1,3 +1,4 @@
 *.d
 /ledcmd_daemon
 *.o
+/build/

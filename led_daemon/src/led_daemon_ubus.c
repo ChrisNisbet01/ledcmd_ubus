@@ -6,8 +6,8 @@
 #include <lib_log/log.h>
 #include <lib_led/string_constants.h>
 
-#include <libubus_utils/ubus_connection.h>
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_connection.h>
+#include <ubus_utils/ubus_utils.h>
 
 #include <stddef.h>
 #include <unistd.h>
