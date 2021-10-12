@@ -107,7 +107,7 @@ main(int argc, char **argv)
 	char const *patterns_directory = default_patterns_directory;
 	char const *aliases_directory = default_aliases_directory;
 	char const *backend_directory = NULL;
-	char const *logging_plugin_dir = NULL;
+	char const *logging_plugin_path = NULL;
 
 	int opt;
 
@@ -130,7 +130,7 @@ main(int argc, char **argv)
 				exit_code = EXIT_SUCCESS;
 				goto done;
 			case 'l':
-				logging_plugin_dir = optarg;
+				logging_plugin_path = optarg;
 				break;
 			default:
 				usage(stderr, argv[0]);
@@ -139,9 +139,10 @@ main(int argc, char **argv)
 		}
 	}
 
-	logging_plugin_load(logging_plugin_dir, _led_ledcmd, false, false);
+	logging_plugin_load(logging_plugin_path, _led_ledcmd, false, false);
 
 	if (!is_only_instance()) {
+		log_error("only one instance at a time allowed to run\n");
 		exit_code = EXIT_FAILURE;
 		goto done;
 	}

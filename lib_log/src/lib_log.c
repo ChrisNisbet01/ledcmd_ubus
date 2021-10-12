@@ -52,7 +52,10 @@ log_error(char const * const fmt, ...)
 		goto done;
 	}
 
-	if (logging_context->plugin_methods == NULL) {
+	struct logging_plugin_methods_st const * const plugin_methods =
+	    logging_context->plugin_methods;
+
+	if (plugin_methods == NULL) {
 		res = -1;
 		goto done;
 	}
@@ -60,9 +63,8 @@ log_error(char const * const fmt, ...)
 	va_list args;
 
 	va_start(args, fmt);
-	res = logging_context
-			->plugin_methods
-			->log_error(logging_context->plugin_context, fmt, args);
+	res = plugin_methods->log_error(
+	    logging_context->plugin_context, fmt, args);
 	va_end(args);
 
 done:
@@ -79,7 +81,10 @@ log_info(char const * const fmt, ...)
 		goto done;
 	}
 
-	if (logging_context->plugin_methods == NULL) {
+	struct logging_plugin_methods_st const * const plugin_methods =
+	    logging_context->plugin_methods;
+
+	if (plugin_methods == NULL) {
 		res = -1;
 		goto done;
 	}
@@ -87,9 +92,8 @@ log_info(char const * const fmt, ...)
 	va_list args;
 
 	va_start(args, fmt);
-	res = logging_context
-			->plugin_methods
-			->log_info(logging_context->plugin_context, fmt, args);
+	res = plugin_methods->log_info(
+	    logging_context->plugin_context, fmt, args);
 	va_end(args);
 
 done:
@@ -106,13 +110,16 @@ log_init(char const * const program_name, int const a, int const b)
 		goto done;
 	}
 
-	if (logging_context->plugin_methods == NULL) {
+	struct logging_plugin_methods_st const * const plugin_methods =
+	    logging_context->plugin_methods;
+
+	if (plugin_methods == NULL) {
 		res = -1;
 		goto done;
 	}
 
 	logging_context->plugin_context =
-		logging_context->plugin_methods->log_init(program_name, a, b);
+		plugin_methods->log_init(program_name, a, b);
 
 	res = 0;
 
@@ -127,9 +134,11 @@ logging_plugin_unload(void)
 		goto done;
 	}
 
-	if (logging_context->plugin_methods != NULL) {
-		logging_context->plugin_methods
-			->log_unload(logging_context->plugin_context);
+	struct logging_plugin_methods_st const * const plugin_methods =
+	    logging_context->plugin_methods;
+
+	if (plugin_methods != NULL) {
+		plugin_methods->log_unload(logging_context->plugin_context);
 	}
 
 	if (logging_context->lib_handle != NULL) {
@@ -145,7 +154,7 @@ done:
 
 bool
 logging_plugin_load(
-	char const * const plugin_directory,
+	char const * const plugin_path,
 	char const * const program_name,
 	int const a,
 	int const b)
@@ -158,22 +167,14 @@ logging_plugin_load(
 		goto done;
 	}
 
-	char plugin_pathname[PATH_MAX];
-	char const lib_name[] = "logging_plugin.so";
+	void * const lib_handle = dlopen(plugin_path, RTLD_NOW);
 
-	if (plugin_directory == NULL) {
-		snprintf(plugin_pathname, sizeof plugin_pathname, "%s", lib_name);
-	} else {
-		snprintf(plugin_pathname, sizeof plugin_pathname,
-				 "%s/%s", plugin_directory, lib_name);
-	}
-
-	void * const lib_handle = dlopen(plugin_pathname, RTLD_NOW);
-
-    if (lib_handle == NULL) {
+	if (lib_handle == NULL)
+	{
 		success = false;
 		goto done;
-    }
+	}
+
 	logging_context->lib_handle = lib_handle;
 	logging_context->plugin_methods = get_plugin_methods(lib_handle);
 

@@ -1,5 +1,5 @@
 #include <lib_log/logging_plugin.h>
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_utils.h>
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -49,6 +49,10 @@ plugin_unload(logging_plugin_context_st * const context)
 static logging_plugin_context_st *
 plugin_log_init(char const * const program_name, int const a, int const b)
 {
+	UNUSED_ARG(program_name);
+	UNUSED_ARG(a);
+	UNUSED_ARG(b);
+
 	return NULL;
 }
 

@@ -6,6 +6,7 @@
 #include "platform_leds_plugin.h"
 
 #include <lib_led/string_constants.h>
+#include <lib_log/log.h>
 #include <ubus_utils/ubus_utils.h>
 
 #include <stdlib.h>
@@ -1651,6 +1652,7 @@ ledcmd_init(
 		platform_leds_plugin_load(backend_directory, &methods);
 
 	if (methods == NULL) {
+		log_error("Failed to load backend LEDs methods\n");
 		success = false;
 		goto done;
 	}

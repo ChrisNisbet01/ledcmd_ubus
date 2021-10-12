@@ -11,7 +11,7 @@ log_info(char const *fmt, ...);
 
 bool
 logging_plugin_load(
-    char const *plugin_directory, char const *progname, int a, int b);
+    char const *plugin_path, char const *progname, int a, int b);
 
 void
 logging_plugin_unload(void);
