@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(ledcmd_cli VERSION 1.0.0 DESCRIPTION "ledcmd with UBUS support")
+set(EXE_NAME ledcmd_cli)
+
+project(${EXE_NAME} VERSION 1.0.0 DESCRIPTION "ledcmd with UBUS support")
 
 set(CMAKE_C_COMPILER "gcc")
 
@@ -39,9 +41,10 @@ target_link_libraries(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} 
   PROPERTIES 
     VERSION ${PROJECT_VERSION}
+    OUTPUT_NAME ${EXE_NAME}
 )
 
 install(TARGETS ${PROJECT_NAME} 
-  RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
