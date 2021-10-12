@@ -1,3 +1,4 @@
 *.d
 /led_pattern
 *.o
+/build/

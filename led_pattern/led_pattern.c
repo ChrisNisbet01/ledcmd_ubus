@@ -1,7 +1,7 @@
 #include <lib_led/lib_led.h>
 #include <lib_led/lib_led_pattern.h>
 #include <lib_led/string_constants.h>
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_utils.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -93,11 +93,21 @@ main(int argc, char *argv[])
 {
 	int c;
 	int result;
-	struct ledcmd_ctx_st const * const ctx = led_init();
 	bool retrigger = false;
+	struct ubus_context * ubus_ctx = NULL;
+	struct ledcmd_ctx_st * ctx = NULL;
 
+	ubus_ctx = ubus_connect(NULL);
+	if (ubus_ctx == NULL)
+	{
+		fprintf(stderr, "Unable to connect to UBUS\n");
+		result = EXIT_FAILURE;
+		goto done;
+	}
+
+	ctx = led_init(ubus_ctx);
 	if (ctx == NULL) {
-		fprintf(stderr, "Unable to connect to ubus\n");
+		fprintf(stderr, "Unable to connect to LED daemon\n");
 		result = EXIT_FAILURE;
 		goto done;
 	}
@@ -172,6 +182,7 @@ main(int argc, char *argv[])
 
 done:
 	led_deinit(ctx);
+	ubus_free(ubus_ctx);
 
 	return result;
 }
