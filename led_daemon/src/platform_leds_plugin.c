@@ -35,20 +35,10 @@ platform_leds_plugin_unload(void * const handle)
 
 void *
 platform_leds_plugin_load(
-	char const * const backend_directory,
+	char const * const backend_path,
 	struct platform_led_methods_st const * * const platform_methods)
 {
-	char plugin_path[PATH_MAX];
-    char const plugin_name[] = "led_daemon_backend_plugin.so";
-
-	if (backend_directory == NULL) {
-		snprintf(plugin_path, sizeof plugin_path, "%s", plugin_name);
-	} else {
-		snprintf(plugin_path, sizeof plugin_path,
-				 "%s/%s", backend_directory, plugin_name);
-	}
-
-	void * const plugin_handle = dlopen(plugin_path, RTLD_NOW);
+	void * const plugin_handle = dlopen(backend_path, RTLD_NOW);
 
     if (plugin_handle == NULL) {
         *platform_methods = NULL;

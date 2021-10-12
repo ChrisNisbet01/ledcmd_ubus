@@ -1,6 +1,6 @@
 #include <led_daemon/platform_specific.h>
 
-#include <libubus_utils/ubus_utils.h>
+#include <ubus_utils/ubus_utils.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -110,6 +110,8 @@ get_led_state(
 	enum led_state_t const state =
 		(led != NULL) ? led->state : LED_STATE_UNKNOWN;
 
+	UNUSED_ARG(led_handle);
+
 	return state;
 }
 
@@ -121,6 +123,9 @@ set_led_state(
 {
 	int value = atoi(led->name) * 2;
     char cmd = (state == LED_ON) ? '1' : (state == LED_SLOW_FLASH) ? 'f' : (state == LED_FAST_FLASH) ? 'F' : '0';
+
+    UNUSED_ARG(led_handle);
+
     fprintf(stdout, "\033[24;%dH%c", value, cmd);
 	fflush(stdout);
 	led->state = state;
@@ -152,6 +157,8 @@ iterate_leds(
 {
 	led_st *led;
 
+	UNUSED_ARG(platform_leds);
+
 	for (size_t i = 0; i < ARRAY_SIZE(leds); i++) {
 		if (!cb(&leds[i], user_ctx)) {
 			led = &leds[i];
@@ -171,8 +178,8 @@ iterate_supported_states(
 {
 	cb(LED_OFF, user_ctx);
 	cb(LED_ON, user_ctx);
-	//cb(LED_SLOW_FLASH, user_ctx);
-	//cb(LED_FAST_FLASH, user_ctx);
+	cb(LED_SLOW_FLASH, user_ctx);
+	cb(LED_FAST_FLASH, user_ctx);
 }
 
 static char const *
@@ -184,7 +191,8 @@ get_led_name(led_st const * const led)
 static enum led_colour_t
 get_led_colour(led_st const * const led)
 {
-	enum led_colour_t const colour = (led != NULL) ? led->colour : -1;
+	enum led_colour_t const colour =
+		(led != NULL) ? led->colour : (enum led_colour_t)-1;
 
 	return colour;
 }
@@ -202,7 +210,9 @@ leds_init(void)
 static void
 leds_deinit(platform_leds_st * const platform_leds)
 {
-	/* Nothing to do. */
+    UNUSED_ARG(platform_leds);
+
+    /* Nothing to do. */
     fprintf(stdout, "\e[?25h");
     fflush(stdout);
 }

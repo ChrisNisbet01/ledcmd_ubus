@@ -1614,7 +1614,7 @@ ledcmd_init(
 	char const * const ubus_path,
 	char const * const patterns_directory,
 	char const * const aliases_directory,
-	char const * const backend_directory)
+	char const * const backend_path)
 {
 	bool success;
 	struct ledcmd_ctx_st *context = calloc(1, sizeof *context);
@@ -1649,7 +1649,7 @@ ledcmd_init(
 	struct platform_led_methods_st const * methods;
 
 	context->platform_leds_handle =
-		platform_leds_plugin_load(backend_directory, &methods);
+		platform_leds_plugin_load(backend_path, &methods);
 
 	if (methods == NULL) {
 		log_error("Failed to load backend LEDs methods\n");

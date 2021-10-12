@@ -53,7 +53,7 @@ run(
 	char const * const ubus_path,
 	char const * const patterns_directory,
 	char const * const aliases_directory,
-	char const * const backend_directory)
+	char const * const backend_path)
 {
 	bool success;
 
@@ -66,7 +66,7 @@ run(
 			ubus_path,
 			patterns_directory,
 			aliases_directory,
-			backend_directory);
+			backend_path);
 
 	if (context != NULL) {
 		uloop_run();
@@ -106,7 +106,7 @@ main(int argc, char **argv)
 	char const *ubus_path = NULL;
 	char const *patterns_directory = default_patterns_directory;
 	char const *aliases_directory = default_aliases_directory;
-	char const *backend_directory = NULL;
+	char const *backend_plugin_path = NULL;
 	char const *logging_plugin_path = NULL;
 
 	int opt;
@@ -123,7 +123,7 @@ main(int argc, char **argv)
 				aliases_directory = optarg;
 				break;
 			case 'b':
-				backend_directory = optarg;
+				backend_plugin_path = optarg;
 				break;
 			case 'h':
 				usage(stdout, argv[0]);
@@ -149,10 +149,16 @@ main(int argc, char **argv)
 
 	log_info("Daemon starting");
 
-	exit_code =
-		run(ubus_path, patterns_directory, aliases_directory, backend_directory)
-		? EXIT_SUCCESS
-		: EXIT_FAILURE;
+    if (run(
+            ubus_path, patterns_directory, aliases_directory, backend_plugin_path))
+    {
+        exit_code = EXIT_SUCCESS;
+    }
+    else
+    {
+        exit_code = EXIT_FAILURE;
+    }
+
 
 	log_info("Daemon stopping");
 

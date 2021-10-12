@@ -187,7 +187,7 @@ ledcmd_init(
 	char const *ubus_path,
 	char const *patterns_directory,
 	char const *aliases_directory,
-	char const * const backend_directory);
+	char const * const backend_path);
 
 void
 ledcmd_deinit(ledcmd_ctx_st *context);
