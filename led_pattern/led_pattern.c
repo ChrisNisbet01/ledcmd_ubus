@@ -82,13 +82,15 @@ static void
 usage(FILE * const fp)
 {
     fprintf(fp,
-            "usage:  led_pattern [-h?] -r\n"
-            "        -h?    - help    - what you see below\n"
-            "        -r     - replay pattern if already playing\n"
-            "        led_pattern list               - List patterns\n"
-            "        led_pattern list_playing       - List playing patterns\n"
-            "        led_pattern play -r <pattern>  - Play pattern <pattern>\n"
-            "        led_pattern stop <pattern>     - Stop pattern <pattern>\n"
+            "usage:\n"
+            "\tled_pattern [options] <pattern>\n"
+            "\t-h?         - help    - what you see below\n"
+            "\t-r          - replay pattern if already playing\n"
+            "\t-u <socket> - UBUS socket path (otherwise uses default)\n"
+            "\tled_pattern list               - List patterns\n"
+            "\tled_pattern list_playing       - List playing patterns\n"
+            "\tled_pattern play <pattern>     - Play pattern <pattern>\n"
+            "\rled_pattern stop <pattern>     - Stop pattern <pattern>\n"
             "\n");
 }
 
@@ -98,26 +100,11 @@ main(int argc, char * argv[])
     int c;
     int result;
     bool retrigger = false;
+    char const * ubus_path = NULL;
     struct ubus_context * ubus_ctx = NULL;
     struct ledcmd_ctx_st * ctx = NULL;
 
-    ubus_ctx = ubus_connect(NULL);
-    if (ubus_ctx == NULL)
-    {
-        fprintf(stderr, "Unable to connect to UBUS\n");
-        result = EXIT_FAILURE;
-        goto done;
-    }
-
-    ctx = led_init(ubus_ctx);
-    if (ctx == NULL)
-    {
-        fprintf(stderr, "Unable to connect to LED daemon\n");
-        result = EXIT_FAILURE;
-        goto done;
-    }
-
-    while ((c = getopt(argc, argv, "?hr")) != -1)
+    while ((c = getopt(argc, argv, "?hru:")) != -1)
     {
         switch (c)
         {
@@ -131,12 +118,32 @@ main(int argc, char * argv[])
             retrigger = true;
             break;
 
+        case 'u':
+            ubus_path = optarg;
+            break;
+
         default:
             usage(stderr);
             result = EXIT_FAILURE;
             goto done;
 
         }
+    }
+
+    ubus_ctx = ubus_connect(ubus_path);
+    if (ubus_ctx == NULL)
+    {
+        fprintf(stderr, "Unable to connect to UBUS\n");
+        result = EXIT_FAILURE;
+        goto done;
+    }
+
+    ctx = led_init(ubus_ctx);
+    if (ctx == NULL)
+    {
+        fprintf(stderr, "Unable to connect to LED daemon\n");
+        result = EXIT_FAILURE;
+        goto done;
     }
 
     int const args_left = argc - optind;

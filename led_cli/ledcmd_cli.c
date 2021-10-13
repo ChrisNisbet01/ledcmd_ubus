@@ -348,26 +348,28 @@ static void
 usage(FILE * const fp)
 {
     fprintf(fp,
-            "usage:  ledcmd [-h?]\n"
-            "        ledcmd [-lL]\n"
-            "        ledcmd [-k|-K] <lock ID> <LED name> ...\n"
-            "        ledcmd [-i <lock ID>] ((-s|-o|-O|-f|-F|-q) <LED name>) ...\n\n"
-            "\t-h?   help    - what you see below\n"
-            "\t-k    acquire - acquire exclusive access to this LED, locked by <lock ID>\n"
-            "\t-K    release - release access to this LED, held by <lock ID>\n"
-            "\t-i    lock ID - execute commands with <lock ID> access\n"
-            "\t-s    set     - turn LED on briefly\n"
-            "\t-o    on      - turn LED on\n"
-            "\t-O    off     - turn LED off\n"
-            "\t-f    flash   - make LED flash\n"
-            "\t-F    flash   - make LED flash fast\n"
-            "\t-q    query   - print LED state\n"
-            "\t-l    list    - list LEDs\n"
-            "\t-L    states  - list LED states\n"
-            "\t-n    alton   - set LED to alternate mode\n"
-            "\t-N    altoff  - set LED to normal mode\n"
-            "\t-a    altbit  - alt LED mode applies to following commands\n"
-            "\t-A    ~altbit - alt LED mode does not apply to following commands\n"
+            "usage:\n"
+            "\tledcmd [-h?]\n"
+            "\tledcmd [-u <UBUS socket>] [-lL]\n"
+            "\tledcmd [-u <UBUS socket>] [-k|-K] <lock ID> <LED name> ...\n"
+            "\tledcmd [-u <UBUS socket>] [-i <lock ID>] ((-s|-o|-O|-f|-F|-q) <LED name>) ...\n\n"
+            "\t-h?            help    - what you see below\n"
+            "\t-u <socket>    UBUS socket path (otherwise uses default)\n"
+            "\t-k             acquire - acquire exclusive access to this LED, locked by <lock ID>\n"
+            "\t-K             release - release access to this LED, held by <lock ID>\n"
+            "\t-i             lock ID - execute commands with <lock ID> access\n"
+            "\t-s             set     - turn LED on briefly\n"
+            "\t-o             on      - turn LED on\n"
+            "\t-O             off     - turn LED off\n"
+            "\t-f             flash   - make LED flash\n"
+            "\t-F             flash   - make LED flash fast\n"
+            "\t-q             query   - print LED state\n"
+            "\t-l             list    - list LEDs\n"
+            "\t-L             states  - list LED states\n"
+            "\t-n             alton   - set LED to alternate mode\n"
+            "\t-N             altoff  - set LED to normal mode\n"
+            "\t-a             altbit  - alt LED mode applies to following commands\n"
+            "\t-A             ~altbit - alt LED mode does not apply to following commands\n"
             "\n");
 }
 
@@ -378,10 +380,29 @@ main(int argc, char * argv[])
     int result;
     char const * lock_id = NULL;
     char const * led_priority = _led_priority_normal;
+    char const * ubus_path = NULL;
     struct ubus_context * ubus_ctx = NULL;
     struct ledcmd_ctx_st * ctx = NULL;
 
-    ubus_ctx = ubus_connect(NULL);
+    /*
+     * Two passes over the command line args are required because some options
+     * may require connecting to UBUS, and the UBUS path may also be passed on
+     * the command line.
+     */
+
+    opterr = 0;
+    while ((c = getopt(argc, argv, "u:")) != -1)
+    {
+        switch (c)
+        {
+            case 'u':
+                ubus_path = optarg;
+                fprintf(stdout, "UBUS path: %s\n", ubus_path);
+                break;
+        }
+    }
+
+    ubus_ctx = ubus_connect(ubus_path);
     if (ubus_ctx == NULL)
     {
         fprintf(stderr, "Unable to connect to UBUS\n");
@@ -397,7 +418,9 @@ main(int argc, char * argv[])
         goto done;
     }
 
-    while ((c = getopt(argc, argv, "aAn:N:lLs:o:O:f:F:q:k:K:i:")) != -1)
+    opterr = 1;
+    optind = 1;
+    while ((c = getopt(argc, argv, "aAn:N:lLs:o:O:f:F:q:k:K:i:u:")) != -1)
     {
         switch (c)
         {
@@ -514,6 +537,10 @@ main(int argc, char * argv[])
             usage(stdout);
             result = EXIT_SUCCESS;
             goto done;
+
+        case 'u':
+            /* UBUS path. Ignore, as it's not needed in this pass of the args. */
+            break;
 
         default:
             usage(stderr);
