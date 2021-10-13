@@ -30,6 +30,11 @@ SET(SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+add_dependencies(${PROJECT_NAME} 
+  led
+  ubus_utils
+)
+
 target_link_libraries(${PROJECT_NAME}
   led
   ubus_utils

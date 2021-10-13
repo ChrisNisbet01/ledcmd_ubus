@@ -1,5 +1,5 @@
-#ifndef __LIB_LED_H__
-#define __LIB_LED_H__
+#ifndef LIB_LED_H__
+#define LIB_LED_H__
 
 #include <libubus.h>
 
@@ -11,4 +11,5 @@ led_init(struct ubus_context * ubus_ctx);
 void
 led_deinit(ledcmd_ctx_st *ctx);
 
-#endif /* __LIB_LED_H__ */
+#endif /* LIB_LED_H__ */
+

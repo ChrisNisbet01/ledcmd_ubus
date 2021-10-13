@@ -6,7 +6,7 @@
 typedef struct ledcmd_ctx_st ledcmd_ctx_st;
 
 typedef void (*ubus_cb)
-	(struct ubus_request *req, int type, struct blob_attr *response);
+    (struct ubus_request * req, int type, struct blob_attr * response);
 
 bool
 ledcmd_ubus_invoke(
@@ -17,3 +17,4 @@ ledcmd_ubus_invoke(
     struct ledcmd_ctx_st const * const ledcmd_ctx);
 
 #endif /* __LIB_LED_PRIVATE_H__ */
+

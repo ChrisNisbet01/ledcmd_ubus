@@ -1,5 +1,5 @@
-#ifndef __STRING_CONSTANTS_H__
-#define __STRING_CONSTANTS_H__
+#ifndef STRING_CONSTANTS_H__
+#define STRING_CONSTANTS_H__
 
 extern char const _led_ledcmd[];
 extern char const _led_leds[];
@@ -63,4 +63,5 @@ extern char const _led_pattern_play_count[];
 extern char const _led_alias_name[];
 extern char const _led_alias_aliases[];
 
-#endif /* __STRING_CONSTANTS_H__ */
+#endif /* STRING_CONSTANTS_H__ */
+

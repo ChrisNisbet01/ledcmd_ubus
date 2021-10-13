@@ -7,3 +7,4 @@
 *.vpw
 *.vpwhistu
 *.vtg
+/build/

@@ -10,8 +10,7 @@ led_priority_highest_priority(led_priority_st const * const priority_context)
 
 bool
 led_priority_priority_is_active(
-    led_priority_st const * const priority_context,
-    enum led_priority_t const priority)
+    led_priority_st const * const priority_context, enum led_priority_t const priority)
 {
     return priority_context_priority_is_active(
         (priority_context_st *)priority_context, priority);
@@ -20,8 +19,7 @@ led_priority_priority_is_active(
 
 enum led_priority_t
 led_priority_priority_activate(
-    led_priority_st * const priority_context,
-    enum led_priority_t const priority)
+    led_priority_st * const priority_context, enum led_priority_t const priority)
 {
     return priority_context_priority_activate(
         (priority_context_st *)priority_context, priority);
@@ -29,8 +27,7 @@ led_priority_priority_activate(
 
 enum led_priority_t
 led_priority_priority_deactivate(
-    led_priority_st * const priority_context,
-    enum led_priority_t const priority)
+    led_priority_st * const priority_context, enum led_priority_t const priority)
 {
     /* The lowest priority can't be deactivated. */
     enum led_priority_t const highest_priority =

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(led_daemon_test_plugin VERSION 1.0.0 DESCRIPTION "test LED backend plugin")
+project(led_daemon_sysfs_plugin VERSION 1.0.0 DESCRIPTION "sysfs LED backend plugin")
 
 set(CMAKE_C_COMPILER "gcc")
 
@@ -19,10 +19,10 @@ include(GNUInstallDirs)
 find_package(ubus_utils CONFIG REQUIRED)
 
 SET(SOURCES 
-  led_test.c
+  led_sysfs.c
 )
 
-SET(LIB_NAME led_daemon_test_plugin)
+SET(LIB_NAME led_daemon_sysfs_plugin)
 
 add_library(${LIB_NAME} MODULE ${SOURCES})
 
