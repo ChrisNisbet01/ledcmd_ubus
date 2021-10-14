@@ -17,6 +17,7 @@ add_compile_options(
 include(GNUInstallDirs)
 
 find_package(ubus_utils CONFIG REQUIRED)
+find_package(lib_log CONFIG REQUIRED)
 
 SET(SOURCES 
   logging_stderr.c
@@ -25,6 +26,11 @@ SET(SOURCES
 SET(LIB_NAME logging_plugin)
 
 add_library(${LIB_NAME} MODULE ${SOURCES})
+
+target_include_directories(${LIB_NAME}
+  PUBLIC
+    ${CMAKE_INSTALL_FULL_INCLUDEDIR}
+)
 
 set_target_properties(${LIB_NAME} 
   PROPERTIES 

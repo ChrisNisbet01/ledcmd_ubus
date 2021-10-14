@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(liblog VERSION 1.0.0 DESCRIPTION "Logging plugin library")
+project(lib_log VERSION 1.0.0 DESCRIPTION "Logging plugin library")
 
 set(CMAKE_C_COMPILER "gcc")
 
@@ -26,6 +26,7 @@ add_library(${LIB_NAME} SHARED ${LIB_SOURCES})
 
 target_include_directories(${LIB_NAME}
   PUBLIC
+    ${CMAKE_INSTALL_FULL_INCLUDEDIR}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
   PRIVATE
