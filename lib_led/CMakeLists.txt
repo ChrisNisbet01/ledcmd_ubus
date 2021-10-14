@@ -14,9 +14,9 @@ add_compile_options(
   -D_GNU_SOURCE 
 )
 
-include(GNUInstallDirs)
+find_package(ubus_utils REQUIRED)
 
-find_package(ubus_utils CONFIG REQUIRED)
+include(GNUInstallDirs)
 
 SET(LIB_SOURCES 
   src/lib_led.c
@@ -31,6 +31,7 @@ add_library(${LIB_NAME} SHARED ${LIB_SOURCES})
 
 target_include_directories(${LIB_NAME}
   PUBLIC
+    ${CMAKE_INSTALL_FULL_INCLUDEDIR}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}>
   PRIVATE

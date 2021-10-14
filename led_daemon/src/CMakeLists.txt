@@ -18,6 +18,11 @@ SET(SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+target_include_directories(${PROJECT_NAME} 
+  PRIVATE 
+    ${PROJECT_SOURCE_DIR}/include
+)
+
 target_link_libraries(${PROJECT_NAME}
   led
   ubus_utils
@@ -38,3 +43,9 @@ install(TARGETS ${PROJECT_NAME}
   RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
+install(FILES 
+  led_colours.h
+  led_states.h
+  platform_specific.h
+  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+)
