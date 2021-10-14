@@ -18,12 +18,11 @@ include(GNUInstallDirs)
 
 find_library(BLOBMSG_JSON blobmsg_json CONFIG REQUIRED)
 find_library(JSON_C json-c)
-find_package(libled CONFIG REQUIRED)
-find_package(liblog CONFIG REQUIRED)
+find_package(lib_led CONFIG REQUIRED)
+find_package(lib_log CONFIG REQUIRED)
 find_library(UBOX ubox)
 find_library(UBUS ubus)
 find_package(ubus_utils CONFIG REQUIRED)
 
 add_subdirectory(src)
-add_subdirectory(include)
 

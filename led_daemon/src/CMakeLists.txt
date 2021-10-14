@@ -37,15 +37,11 @@ target_link_libraries(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME} 
   PROPERTIES 
     VERSION ${PROJECT_VERSION}
+    PUBLIC_HEADER "${PROJECT_SOURCE_DIR}/include/led_colours.h;${PROJECT_SOURCE_DIR}/include/led_states.h;${PROJECT_SOURCE_DIR}/include/platform_specific.h"
 )
 
 install(TARGETS ${PROJECT_NAME} 
   RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
 )
 
-install(FILES 
-  led_colours.h
-  led_states.h
-  platform_specific.h
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-)

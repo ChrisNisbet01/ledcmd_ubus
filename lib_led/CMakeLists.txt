@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(libled VERSION 1.0.0 DESCRIPTION "UBUS LED library")
+project(lib_led VERSION 1.0.0 DESCRIPTION "UBUS LED library")
 
 set(CMAKE_C_COMPILER "gcc")
 
@@ -42,19 +42,13 @@ set_target_properties(${LIB_NAME}
   PROPERTIES 
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
+    PUBLIC_HEADER "include/lib_led.h;include/lib_led_control.h;include/lib_led_pattern.h;include/string_constants.h"
 )
 
 install(TARGETS ${LIB_NAME} 
   EXPORT ${PROJECT_NAME}-config
   LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
-install(FILES 
-  include/lib_led.h
-  include/lib_led_control.h 
-  include/lib_led_pattern.h 
-  include/string_constants.h 
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
 )
 
 install(

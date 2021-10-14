@@ -26,6 +26,11 @@ SET(LIB_NAME led_daemon_test_plugin)
 
 add_library(${LIB_NAME} MODULE ${SOURCES})
 
+target_include_directories(${LIB_NAME}
+  PUBLIC
+    ${CMAKE_INSTALL_FULL_INCLUDEDIR}
+)
+
 set_target_properties(${LIB_NAME} 
   PROPERTIES 
     VERSION ${PROJECT_VERSION}

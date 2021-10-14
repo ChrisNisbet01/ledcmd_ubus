@@ -37,17 +37,13 @@ set_target_properties(${LIB_NAME}
   PROPERTIES 
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
+    PUBLIC_HEADER "include/log.h;include/logging_plugin.h"
 )
 
 install(TARGETS ${LIB_NAME} 
   EXPORT ${PROJECT_NAME}-config
   LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
-install(FILES 
-  include/log.h
-  include/logging_plugin.h 
-  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
 )
 
 install(
