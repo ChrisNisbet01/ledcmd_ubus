@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(led_daemon VERSION 1.0.0 DESCRIPTION "led_daemon")
 
 set(CMAKE_C_COMPILER "gcc")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 add_compile_options(
    -std=gnu11

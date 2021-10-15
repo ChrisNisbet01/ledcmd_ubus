@@ -5,6 +5,7 @@ set(EXE_NAME led_pattern)
 project(${EXE_NAME} VERSION 1.0.0 DESCRIPTION "led pattern player")
 
 set(CMAKE_C_COMPILER "gcc")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 add_compile_options(
    -std=gnu11

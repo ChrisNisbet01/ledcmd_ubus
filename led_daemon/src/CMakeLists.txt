@@ -21,7 +21,8 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} 
   PRIVATE 
     ${PROJECT_SOURCE_DIR}/include
-    $<INSTALL_INTERFACE:include>
+  PUBLIC
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 target_link_libraries(${PROJECT_NAME}
