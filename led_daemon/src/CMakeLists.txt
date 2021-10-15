@@ -34,10 +34,16 @@ target_link_libraries(${PROJECT_NAME}
   log
 )
 
+set(PUBLIC_HEADERS 
+  ${PROJECT_SOURCE_DIR}/include/led_colours.h
+  ${PROJECT_SOURCE_DIR}/include/led_states.h
+  ${PROJECT_SOURCE_DIR}/include/platform_specific.h
+)
+
 set_target_properties(${PROJECT_NAME} 
   PROPERTIES 
     VERSION ${PROJECT_VERSION}
-    PUBLIC_HEADER "${PROJECT_SOURCE_DIR}/include/led_colours.h;${PROJECT_SOURCE_DIR}/include/led_states.h;${PROJECT_SOURCE_DIR}/include/platform_specific.h"
+    PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )
 
 install(TARGETS ${PROJECT_NAME} 

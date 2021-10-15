@@ -33,11 +33,16 @@ target_include_directories(${LIB_NAME}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
 
+set(PUBLIC_HEADERS 
+  include/log.h
+  include/logging_plugin.h
+)
+
 set_target_properties(${LIB_NAME} 
   PROPERTIES 
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
-    PUBLIC_HEADER "include/log.h;include/logging_plugin.h"
+    PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )
 
 install(TARGETS ${LIB_NAME} 

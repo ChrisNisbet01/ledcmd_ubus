@@ -38,11 +38,18 @@ target_include_directories(${LIB_NAME}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
 
+set(PUBLIC_HEADERS 
+  include/lib_led.h
+  include/lib_led_control.h
+  include/lib_led_pattern.h
+  include/string_constants.h
+)
+
 set_target_properties(${LIB_NAME} 
   PROPERTIES 
     VERSION ${PROJECT_VERSION}
     SOVERSION 1
-    PUBLIC_HEADER "include/lib_led.h;include/lib_led_control.h;include/lib_led_pattern.h;include/string_constants.h"
+    PUBLIC_HEADER "${PUBLIC_HEADERS}"
 )
 
 install(TARGETS ${LIB_NAME} 
