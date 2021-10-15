@@ -17,6 +17,8 @@ add_compile_options(
 include(GNUInstallDirs)
 
 find_package(ubus_utils CONFIG REQUIRED)
+find_package(led_daemon CONFIG REQUIRED)
+find_path(led_daemon_path led_daemon)
 
 SET(SOURCES 
   led_sysfs.c
@@ -26,10 +28,9 @@ SET(LIB_NAME led_daemon_sysfs_plugin)
 
 add_library(${LIB_NAME} MODULE ${SOURCES})
 
-
 target_include_directories(${LIB_NAME}
   PUBLIC
-    ${CMAKE_INSTALL_FULL_INCLUDEDIR}
+    ${led_daemon_path}
 )
 
 set_target_properties(${LIB_NAME} 

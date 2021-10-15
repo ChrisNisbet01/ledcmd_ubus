@@ -29,11 +29,6 @@ SET(SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_include_directories(${PROJECT_NAME}
-  PUBLIC
-    ${CMAKE_INSTALL_FULL_INCLUDEDIR}
-)
-
 target_link_libraries(${PROJECT_NAME}
   led
   ubus_utils

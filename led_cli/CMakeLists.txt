@@ -19,21 +19,16 @@ add_compile_options(
 include(GNUInstallDirs)
 
 find_library(BLOBMSG_JSON blobmsg_json CONFIG REQUIRED)
-find_package(lib_led CONFIG REQUIRED)
+find_package(lib_led REQUIRED)
 find_library(UBOX ubox)
 find_library(UBUS ubus)
-find_package(ubus_utils CONFIG REQUIRED)
+find_package(ubus_utils REQUIRED)
 
 SET(SOURCES 
   ledcmd_cli.c
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-
-target_include_directories(${PROJECT_NAME}
-  PUBLIC
-    ${CMAKE_INSTALL_FULL_INCLUDEDIR}
-)
 
 add_dependencies(${PROJECT_NAME} 
   led

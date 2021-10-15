@@ -21,6 +21,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} 
   PRIVATE 
     ${PROJECT_SOURCE_DIR}/include
+    $<INSTALL_INTERFACE:include>
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -47,7 +48,13 @@ set_target_properties(${PROJECT_NAME}
 )
 
 install(TARGETS ${PROJECT_NAME} 
+  EXPORT ${PROJECT_NAME}-config
   RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
   PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+)
+
+install(
+  EXPORT ${PROJECT_NAME}-config 
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 

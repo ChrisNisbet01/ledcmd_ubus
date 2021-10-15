@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(logging_plugin VERSION 1.0.0 DESCRIPTION "stderr logging plugin")
+project(logging_stderr_plugin VERSION 1.0.0 DESCRIPTION "stderr logging plugin")
 
 set(CMAKE_C_COMPILER "gcc")
 
@@ -16,29 +16,31 @@ add_compile_options(
 
 include(GNUInstallDirs)
 
-find_package(ubus_utils CONFIG REQUIRED)
-find_package(lib_log CONFIG REQUIRED)
+find_package(lib_log REQUIRED)
+find_path(lib_log_path lib_log)
 
 SET(SOURCES 
   logging_stderr.c
 )
 
-SET(LIB_NAME logging_plugin)
+add_library(${PROJECT_NAME} MODULE ${SOURCES})
 
-add_library(${LIB_NAME} MODULE ${SOURCES})
-
-target_include_directories(${LIB_NAME}
+target_include_directories(${PROJECT_NAME}
   PUBLIC
-    ${CMAKE_INSTALL_FULL_INCLUDEDIR}
+    ${lib_log_path}
 )
 
-set_target_properties(${LIB_NAME} 
+add_dependencies(${PROJECT_NAME} 
+  log
+)
+
+set_target_properties(${PROJECT_NAME} 
   PROPERTIES 
     VERSION ${PROJECT_VERSION}
     PREFIX ""
 )
 
-install(TARGETS ${LIB_NAME} 
+install(TARGETS ${PROJECT_NAME} 
   LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}/logging_plugins
 )
 
