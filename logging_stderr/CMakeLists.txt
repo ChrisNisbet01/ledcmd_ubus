@@ -17,7 +17,6 @@ add_compile_options(
 include(GNUInstallDirs)
 
 find_package(lib_log REQUIRED)
-find_path(lib_log_path lib_log)
 
 SET(SOURCES 
   logging_stderr.c
@@ -25,12 +24,7 @@ SET(SOURCES
 
 add_library(${PROJECT_NAME} MODULE ${SOURCES})
 
-target_include_directories(${PROJECT_NAME}
-  PUBLIC
-    ${lib_log_path}
-)
-
-add_dependencies(${PROJECT_NAME} 
+target_link_libraries(${PROJECT_NAME}
   log
 )
 

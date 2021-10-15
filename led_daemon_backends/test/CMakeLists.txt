@@ -18,7 +18,6 @@ include(GNUInstallDirs)
 
 find_package(ubus_utils CONFIG REQUIRED)
 find_package(led_daemon CONFIG REQUIRED)
-find_path(led_daemon_path led_daemon/platform_specific.h)
 
 SET(SOURCES 
   led_test.c
@@ -28,9 +27,8 @@ SET(LIB_NAME led_daemon_test_plugin)
 
 add_library(${LIB_NAME} MODULE ${SOURCES})
 
-target_include_directories(${LIB_NAME}
-  PRIVATE
-    ${led_daemon_path}
+target_link_libraries(${LIB_NAME}
+  ubus_utils
 )
 
 set_target_properties(${LIB_NAME} 

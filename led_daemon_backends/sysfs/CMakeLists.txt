@@ -28,9 +28,8 @@ SET(LIB_NAME led_daemon_sysfs_plugin)
 
 add_library(${LIB_NAME} MODULE ${SOURCES})
 
-target_include_directories(${LIB_NAME}
-  PUBLIC
-    ${led_daemon_path}
+target_link_libraries(${LIB_NAME}
+  ubus_utils
 )
 
 set_target_properties(${LIB_NAME} 
