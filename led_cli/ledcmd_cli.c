@@ -384,6 +384,13 @@ main(int argc, char * argv[])
     struct ubus_context * ubus_ctx = NULL;
     struct ledcmd_ctx_st * ctx = NULL;
 
+    if (argc < 3)
+    {
+        usage(stderr);
+        result = EXIT_FAILURE;
+        goto done;
+    }
+
     /*
      * Two passes over the command line args are required because some options
      * may require connecting to UBUS, and the UBUS path may also be passed on
@@ -391,14 +398,19 @@ main(int argc, char * argv[])
      */
 
     opterr = 0;
-    while ((c = getopt(argc, argv, "u:")) != -1)
+    while ((c = getopt(argc, argv, "?hu:")) != -1)
     {
         switch (c)
         {
-            case 'u':
-                ubus_path = optarg;
-                fprintf(stdout, "UBUS path: %s\n", ubus_path);
-                break;
+        case 'u':
+            ubus_path = optarg;
+            break;
+
+        case '?':
+        case 'h':
+            usage(stdout);
+            result = EXIT_SUCCESS;
+            goto done;
         }
     }
 
@@ -532,12 +544,6 @@ main(int argc, char * argv[])
             result = EXIT_SUCCESS;
             goto done;
 
-        case '?':
-        case 'h':
-            usage(stdout);
-            result = EXIT_SUCCESS;
-            goto done;
-
         case 'u':
             /* UBUS path. Ignore, as it's not needed in this pass of the args. */
             break;
@@ -548,13 +554,6 @@ main(int argc, char * argv[])
             goto done;
 
         }
-    }
-
-    if (argc < 3 || optind != argc)
-    {
-        usage(stderr);
-        result = EXIT_FAILURE;
-        goto done;
     }
 
     result = EXIT_SUCCESS;
