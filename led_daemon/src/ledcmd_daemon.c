@@ -10,8 +10,8 @@
 #include <unistd.h>
 #include <sys/file.h>
 
-static char const default_patterns_directory[] = "/etc/config/led_patterns";
-static char const default_aliases_directory[] = "/etc/config/led_aliases";
+static char const default_patterns_directory[] = "/usr/local/share/led_daemon/patterns";
+static char const default_aliases_directory[] = "/usr/local/share/led_daemon/aliases";
 
 static bool
 is_only_instance(void)
@@ -113,7 +113,7 @@ main(int argc, char ** argv)
 
     int opt;
 
-    while ((opt = getopt(argc, argv, "hm:p:u:b:l:")) != -1)
+    while ((opt = getopt(argc, argv, "?hm:p:u:b:l:")) != -1)
     {
         switch (opt)
         {
@@ -141,6 +141,11 @@ main(int argc, char ** argv)
         case 'l':
             logging_plugin_path = optarg;
             break;
+
+        case '?':
+            usage(stdout, argv[0]);
+            exit_code = EXIT_SUCCESS;
+            goto done;
 
         default:
             usage(stderr, argv[0]);

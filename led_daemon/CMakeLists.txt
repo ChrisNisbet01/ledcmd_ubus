@@ -26,4 +26,6 @@ find_library(UBUS ubus)
 find_package(ubus_utils CONFIG REQUIRED)
 
 add_subdirectory(src)
+add_subdirectory(led_aliases)
+add_subdirectory(led_patterns)
 
