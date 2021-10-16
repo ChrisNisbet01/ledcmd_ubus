@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(lib_log VERSION 1.0.0 DESCRIPTION "Logging plugin library")
 
-set(CMAKE_C_COMPILER "gcc")
-
 add_compile_options(
    -std=gnu11
   -O3 

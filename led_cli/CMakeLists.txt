@@ -4,8 +4,6 @@ set(EXE_NAME ledcmd_cli)
 
 project(${EXE_NAME} VERSION 1.0.0 DESCRIPTION "ledcmd with UBUS support")
 
-set(CMAKE_C_COMPILER "gcc")
-
 add_compile_options(
    -std=gnu11
   -O3 

@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(led_daemon_test_plugin VERSION 1.0.0 DESCRIPTION "test LED backend plugin")
 
-set(CMAKE_C_COMPILER "gcc")
-
 add_compile_options(
    -std=gnu11
   -O3 
