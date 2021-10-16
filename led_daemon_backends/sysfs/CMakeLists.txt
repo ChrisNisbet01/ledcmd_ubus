@@ -18,7 +18,6 @@ include(GNUInstallDirs)
 
 find_package(ubus_utils CONFIG REQUIRED)
 find_package(led_daemon CONFIG REQUIRED)
-find_path(led_daemon_path led_daemon/platform_specific.h)
 
 SET(SOURCES 
   led_sysfs.c
