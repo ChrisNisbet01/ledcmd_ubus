@@ -1667,9 +1667,9 @@ ledcmd_deinit(struct ledcmd_ctx_st * const context)
     {
         methods->deinit(context->platform_leds);
     }
+    led_patterns_deinit(context->patterns_context);
     platform_leds_plugin_unload(context->platform_leds_handle);
 
-    led_patterns_deinit(context->patterns_context);
     free(context);
 
 done:
