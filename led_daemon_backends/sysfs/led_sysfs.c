@@ -23,6 +23,7 @@
 #define DELAY_FAST	250
 
 #define LOCK_DIR	"/var/lock/leds"
+#define SYS_LEDS_PREFIX "/sys/class/leds/"
 
 enum
 {
@@ -137,7 +138,8 @@ static void append_led_names(struct platform_leds_st * const platform_leds)
 }
 
 static bool
-set_trigger_in_file(char const * const led, char const * const filename)
+set_trigger_in_file(
+    char const * const led, char const * const filename, char const * const trigger)
 {
     UNUSED_ARG(led);
 
@@ -151,7 +153,11 @@ set_trigger_in_file(char const * const led, char const * const filename)
         goto err;
     }
 
-    int const ret = fputs("timer\n", f);
+    char trigger_buf[50];
+
+    snprintf(trigger_buf, sizeof(trigger_buf), "%s\n", trigger);
+
+    int const ret = fputs(trigger_buf, f);
 
     if (ret < 0)
     {
@@ -173,13 +179,13 @@ err:
 }
 
 static bool
-set_trigger(char const * const led)
+set_trigger(char const * const led, char const * const trigger)
 {
     char filename[PATH_MAX];
 
-    snprintf(filename, sizeof(filename), "/sys/class/leds/%s/trigger", led);
+    snprintf(filename, sizeof(filename), SYS_LEDS_PREFIX "%s/trigger", led);
 
-    bool const success = set_trigger_in_file(led, filename);
+    bool const success = set_trigger_in_file(led, filename, trigger);
 
     return success;
 }
@@ -191,19 +197,14 @@ set_delay_in_file(
     FILE * f = fopen(filename, "w");
     bool success;
 
+    UNUSED_ARG(led);
+
     if (f == NULL)
     {
-        /* Try to set trigger to 'timer', maybe it's on default. */
-        if (!set_trigger(led))
-        {
-            success = false;
-            goto err;
-        }
-
         f = fopen(filename, "w");
         if (f == NULL)
         {
-            error("failed to open '%s' property LED '%s'", file, led);
+            error("failed to open '%s' property LED '%s'", filename, led);
             success = false;
             goto err;
         }
@@ -234,7 +235,7 @@ set_delay(char const * const led, char const * const file, int const delay)
 {
     char filename[PATH_MAX];
 
-    snprintf(filename, sizeof(filename), "/sys/class/leds/%s/%s", led, file);
+    snprintf(filename, sizeof(filename), SYS_LEDS_PREFIX "%s/%s", led, file);
 
     bool const success = set_delay_in_file(led, filename, delay);
 
@@ -341,7 +342,7 @@ get_led(char const * const led_name)
     char filename[PATH_MAX];
 
     snprintf(filename, sizeof(filename),
-             "/sys/class/leds/%s/brightness", led_name);
+             SYS_LEDS_PREFIX "%s/brightness", led_name);
 
     enum led_state_t const led_state = get_led_state_from_file(filename);
 
@@ -349,45 +350,24 @@ get_led(char const * const led_name)
 }
 
 static bool
-set_led(int const cmd, char const * const led)
+set_led_locked(
+    int const cmd,
+    char const * const led,
+    unsigned const delay_on,
+    unsigned const delay_off)
 {
     bool result;
-    int delay_on, delay_off;
-    int lock_fd = -1;
 
-    switch (cmd)
+    if (!set_trigger(led, "timer"))
     {
-    case CMD_ON:
-        delay_on = DELAY_SLOW;
-        delay_off = 0;
-        break;
-
-    case CMD_OFF:
-        delay_on = 0;
-        delay_off = DELAY_SLOW;
-        break;
-
-    case CMD_FLASH:
-        delay_on = DELAY_SLOW;
-        delay_off = DELAY_SLOW;
-        break;
-
-    case CMD_FLASH_FAST:
-        delay_on = DELAY_FAST;
-        delay_off = DELAY_FAST;
-        break;
-
-    default:
-        error("invalid command");
-        return false;
+        result = false;
+        goto done;
     }
-
-    lock_fd = lock(led);
 
     /*
      * If this is an ON command, write delay_on first, as setting both
      * delay_on and delay_off to 0 will set the LED to blinking with default
-     * delays
+     * delays. (delay_off might already be 0).
      */
     if (cmd == CMD_ON)
     {
@@ -404,16 +384,60 @@ set_led(int const cmd, char const * const led)
         if (!set_delay(led, "delay_off", delay_off)
             || !set_delay(led, "delay_on", delay_on))
         {
-            unlock(lock_fd);
-            return false;
+            result = false;
+            goto done;
         }
     }
 
     result = true;
 
 done:
+    return result;
+}
+
+static bool
+set_led(int const cmd, char const * const led)
+{
+    bool result;
+    unsigned delay_on;
+    unsigned delay_off;
+    int lock_fd = -1;
+
+    switch (cmd)
+    {
+    case CMD_ON:
+        delay_on = 1; /* Any non-zero value will do. */
+        delay_off = 0;
+        break;
+
+    case CMD_OFF:
+        delay_on = 0;
+        delay_off = 1; /* Use 1 so the LED turns off ASAP. */
+        break;
+
+    case CMD_FLASH:
+        delay_on = DELAY_SLOW;
+        delay_off = DELAY_SLOW;
+        break;
+
+    case CMD_FLASH_FAST:
+        delay_on = DELAY_FAST;
+        delay_off = DELAY_FAST;
+        break;
+
+    default:
+        error("invalid command");
+        result = false;
+        goto done;
+    }
+
+    lock_fd = lock(led);
+
+    result = set_led_locked(cmd, led, delay_on, delay_off);
+
     unlock(lock_fd);
 
+done:
     return result;
 }
 
