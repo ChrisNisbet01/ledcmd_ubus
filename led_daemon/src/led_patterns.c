@@ -90,7 +90,7 @@ led_patterns_free(struct led_patterns_st * const led_patterns)
         free_led_pattern(led_pattern);
     }
 
-    free_const(led_patterns);
+    free(led_patterns);
 
 done:
     return;
