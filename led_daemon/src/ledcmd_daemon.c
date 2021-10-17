@@ -113,7 +113,7 @@ main(int argc, char ** argv)
 
     int opt;
 
-    while ((opt = getopt(argc, argv, "?hm:p:u:b:l:")) != -1)
+    while ((opt = getopt(argc, argv, "?ha:p:u:b:l:")) != -1)
     {
         switch (opt)
         {
@@ -125,7 +125,7 @@ main(int argc, char ** argv)
             patterns_directory = optarg;
             break;
 
-        case 'm':
+        case 'a':
             aliases_directory = optarg;
             break;
 

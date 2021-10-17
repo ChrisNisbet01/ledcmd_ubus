@@ -90,7 +90,7 @@ usage(FILE * const fp)
             "\tled_pattern list               - List patterns\n"
             "\tled_pattern list_playing       - List playing patterns\n"
             "\tled_pattern play <pattern>     - Play pattern <pattern>\n"
-            "\rled_pattern stop <pattern>     - Stop pattern <pattern>\n"
+            "\tled_pattern stop <pattern>     - Stop pattern <pattern>\n"
             "\n");
 }
 
