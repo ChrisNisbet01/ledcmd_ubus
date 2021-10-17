@@ -15,7 +15,6 @@ add_compile_options(
 include(GNUInstallDirs)
 
 find_package(ubus_utils CONFIG REQUIRED)
-find_package(led_daemon CONFIG REQUIRED)
 
 SET(SOURCES 
   led_test.c

@@ -1,5 +1,3 @@
-/ledcmd_cli
-/ledcmd_daemon
 *.d
 *.vpj
 *.o
@@ -7,4 +5,7 @@
 *.vpw
 *.vpwhistu
 *.vtg
-/build/
+/**/build/
+/**/Makefile
+/**/CMakeFiles/
+/**/cmake_install.cmake

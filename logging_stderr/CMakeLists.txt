@@ -14,8 +14,6 @@ add_compile_options(
 
 include(GNUInstallDirs)
 
-find_package(lib_log REQUIRED)
-
 SET(SOURCES 
   logging_stderr.c
 )

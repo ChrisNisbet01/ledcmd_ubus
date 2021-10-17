@@ -17,7 +17,6 @@ add_compile_options(
 include(GNUInstallDirs)
 
 find_library(BLOBMSG_JSON blobmsg_json CONFIG REQUIRED)
-find_package(lib_led REQUIRED)
 find_library(UBOX ubox)
 find_library(UBUS ubus)
 find_package(ubus_utils REQUIRED)
