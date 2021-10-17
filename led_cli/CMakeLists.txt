@@ -34,7 +34,7 @@ add_dependencies(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lib_led/include>
+    $<BUILD_INTERFACE:${lib_led_INCLUDE_DIR}>
 )
 
 target_link_libraries(${PROJECT_NAME}

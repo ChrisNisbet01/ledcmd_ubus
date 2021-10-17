@@ -14,13 +14,24 @@ add_compile_options(
 
 include(GNUInstallDirs)
 
+set(LIB_HEADERS 
+  include/${PROJECT_NAME}/log.h
+  include/${PROJECT_NAME}/logging_plugin.h
+)
+
 SET(LIB_SOURCES 
   src/lib_log.c
+  ${LIB_HEADERS}
 )
 
 SET(LIB_NAME log)
 
 add_library(${LIB_NAME} SHARED ${LIB_SOURCES})
+
+set(${PROJECT_NAME}_INCLUDE_DIR
+  ${PROJECT_SOURCE_DIR}/include
+  CACHE FILEPATH "${PROJECT_NAME} include directory"
+)
 
 target_include_directories(${LIB_NAME}
   PUBLIC

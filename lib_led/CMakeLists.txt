@@ -16,16 +16,29 @@ include(GNUInstallDirs)
 
 find_package(ubus_utils CONFIG REQUIRED)
 
+set(LIB_HEADERS 
+  include/${PROJECT_NAME}/lib_led.h
+  include/${PROJECT_NAME}/lib_led_control.h
+  include/${PROJECT_NAME}/lib_led_pattern.h
+  include/${PROJECT_NAME}/string_constants.h
+)
+
 SET(LIB_SOURCES 
   src/lib_led.c
   src/lib_led_control.c
   src/lib_led_pattern.c
   src/string_constants.c
+  ${LIB_HEADERS}
 )
 
 SET(LIB_NAME led)
 
 add_library(${LIB_NAME} SHARED ${LIB_SOURCES})
+
+set(${PROJECT_NAME}_INCLUDE_DIR
+  ${PROJECT_SOURCE_DIR}/include
+  CACHE FILEPATH "${PROJECT_NAME} include directory"
+)
 
 target_include_directories(${LIB_NAME}
   PUBLIC

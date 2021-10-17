@@ -22,7 +22,7 @@ add_library(${PROJECT_NAME} MODULE ${SOURCES})
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lib_log/include>
+    $<BUILD_INTERFACE:${lib_log_INCLUDE_DIR}>
 )
 
 target_link_libraries(${PROJECT_NAME}

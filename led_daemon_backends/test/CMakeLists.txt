@@ -26,7 +26,7 @@ add_library(${LIB_NAME} MODULE ${SOURCES})
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/led_daemon/include>
+    $<BUILD_INTERFACE:${led_daemon_INCLUDE_DIR}>
 )
 
 target_link_libraries(${LIB_NAME}
