@@ -29,7 +29,7 @@ add_library(${LIB_NAME} SHARED ${LIB_SOURCES})
 
 target_include_directories(${LIB_NAME}
   PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
@@ -38,10 +38,10 @@ target_link_libraries(${LIB_NAME}
 )
 
 set(PUBLIC_HEADERS 
-  include/lib_led.h
-  include/lib_led_control.h
-  include/lib_led_pattern.h
-  include/string_constants.h
+  include/${PROJECT_NAME}/lib_led.h
+  include/${PROJECT_NAME}/lib_led_control.h
+  include/${PROJECT_NAME}/lib_led_pattern.h
+  include/${PROJECT_NAME}/string_constants.h
 )
 
 set_target_properties(${LIB_NAME} 

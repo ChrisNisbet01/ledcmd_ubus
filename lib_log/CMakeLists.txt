@@ -25,13 +25,13 @@ add_library(${LIB_NAME} SHARED ${LIB_SOURCES})
 target_include_directories(${LIB_NAME}
   PUBLIC
     ${ubus_utils_path}
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 set(PUBLIC_HEADERS 
-  include/log.h
-  include/logging_plugin.h
+  include/${PROJECT_NAME}/log.h
+  include/${PROJECT_NAME}/logging_plugin.h
 )
 
 set_target_properties(${LIB_NAME} 

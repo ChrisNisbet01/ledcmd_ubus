@@ -27,7 +27,9 @@ target_sources(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} 
   PRIVATE 
-    ${PROJECT_SOURCE_DIR}/include
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lib_led/include>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lib_log/include>
   PUBLIC
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
@@ -44,9 +46,9 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 set(PUBLIC_HEADERS 
-  ${PROJECT_SOURCE_DIR}/include/led_colours.h
-  ${PROJECT_SOURCE_DIR}/include/led_states.h
-  ${PROJECT_SOURCE_DIR}/include/platform_specific.h
+  ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/led_colours.h
+  ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/led_states.h
+  ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/platform_specific.h
 )
 
 set_target_properties(${PROJECT_NAME} 

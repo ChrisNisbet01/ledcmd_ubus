@@ -32,6 +32,11 @@ add_dependencies(${PROJECT_NAME}
   ubus_utils
 )
 
+target_include_directories(${PROJECT_NAME}
+  PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lib_led/include>
+)
+
 target_link_libraries(${PROJECT_NAME}
   led
   ubus_utils

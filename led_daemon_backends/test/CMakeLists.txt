@@ -24,6 +24,11 @@ SET(LIB_NAME led_daemon_test_plugin)
 
 add_library(${LIB_NAME} MODULE ${SOURCES})
 
+target_include_directories(${PROJECT_NAME}
+  PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/led_daemon/include>
+)
+
 target_link_libraries(${LIB_NAME}
   ubus_utils
 )
