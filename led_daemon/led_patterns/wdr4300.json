@@ -7,12 +7,8 @@
                     "time_ms": 2900,
                     "leds": [
                         {
-                        "name": "tp-link:green:wlan5g",
+                        "name": "green:wlan5g",
                         "state": "fast-flash"
-                        },
-                        {
-                        "name": "tp-link:green:wlan2g",
-                        "state": "off"
                         }
                     ]
                 }
@@ -20,7 +16,7 @@
             "end_state": {
                 "leds": [
                     {
-                    "name": "tp-link:green:wlan5g",
+                    "name": "green:wlan5g",
                     "state": "on"
                     }
                 ]
@@ -33,11 +29,99 @@
                     "time_ms": 2900,
                     "leds": [
                         {
-                        "name": "tp-link:green:wlan2g",
+                        "name": "green:wlan2g",
                         "state": "fast-flash"
+                        }
+                    ]
+                }
+            ],
+            "end_state": {
+                "leds": [
+                    {
+                    "name": "green:wlan2g",
+                    "state": "on"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "cylon",
+            "repeat": true,
+            "pattern": [
+                {
+                    "time_ms": 300,
+                    "leds": [
+                        {
+                        "name": "1",
+                        "state": "on"
                         },
                         {
-                        "name": "tp-link:green:wlan5g",
+                        "name": "2",
+                        "state": "off"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 100,
+                    "leds": [
+                        {
+                        "name": "1",
+                        "state": "off"
+                        },
+                        {
+                        "name": "2",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 100,
+                    "leds": [
+                        {
+                        "name": "2",
+                        "state": "off"
+                        },
+                        {
+                        "name": "3",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 30,
+                    "leds": [
+                        {
+                        "name": "3",
+                        "state": "off"
+                        },
+                        {
+                        "name": "4",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 100,
+                    "leds": [
+                        {
+                        "name": "3",
+                        "state": "on"
+                        },
+                        {
+                        "name": "4",
+                        "state": "off"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 100,
+                    "leds": [
+                        {
+                        "name": "2",
+                        "state": "on"
+                        },
+                        {
+                        "name": "3",
                         "state": "off"
                         }
                     ]
@@ -46,44 +130,55 @@
             "end_state": {
                 "leds": [
                     {
-                    "name": "tp-link:green:wlan2g",
-                    "state": "on"
+                    "name": "1",
+                    "state": "off"
+                    },
+                    {
+                    "name": "2",
+                    "state": "off"
+                    },
+                    {
+                    "name": "3",
+                    "state": "off"
+                    },
+                    {
+                    "name": "4",
+                    "state": "off"
                     }
                 ]
             }
         },
         {
-            "name": "wdr_firmware_update",
-            "start_state": {
-                "leds": [
-                    {
-                        "name": "front_panel",
-                        "priority": "critical",
-                        "state": "off"
-                    }
-                ]
-            },
-            "end_state": {
-                "leds": [
-                    {
-                        "name": "front_panel",
-                        "priority": "critical",
-                        "state": "off"
-                    }
-                ]
-            },
+            "name": "firmware_update",
+            "play_count": 10,
             "pattern": [
                 {
-                    "time_ms": 10000,
+                    "time_ms": 200,
                     "leds": [
                         {
-                            "name": "front_panel",
-                            "priority": "critical",
-                            "state": "fast-flash"
+                        "name": "front_panel",
+                        "state": "on"
+                        }
+                    ]
+                },
+                {
+                    "time_ms": 200,
+                    "leds": [
+                        {
+                        "name": "front_panel",
+                        "state": "off"
                         }
                     ]
                 }
-            ]
+            ],
+            "end_state": {
+                "leds": [
+                    {
+                    "name": "front_panel",
+                    "state": "off"
+                    }
+                ]
+            }
         }
     ]
 }

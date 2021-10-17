@@ -53,38 +53,6 @@
             }
         },
         {
-            "name": "flash_serial_data_led",
-            "repeat": true,
-            "pattern": [
-                {
-                    "time_ms": 30,
-                    "leds": [
-                        {
-                        "name": "sim1",
-                        "state": "on"
-                        }
-                    ]
-                },
-                {
-                    "time_ms": 30,
-                    "leds": [
-                        {
-                        "name": "sim1",
-                        "state": "off"
-                        }
-                    ]
-                }
-            ],
-            "end_state": {
-                "leds": [
-                    {
-                    "name": "sim1",
-                    "state": "off"
-                    }
-                ]
-            }
-        },
-        {
             "name": "cylon",
             "repeat": true,
             "pattern": [
@@ -92,11 +60,11 @@
                     "time_ms": 300,
                     "leds": [
                         {
-                        "name": "cylon1",
+                        "name": "1",
                         "state": "on"
                         },
                         {
-                        "name": "cylon2",
+                        "name": "2",
                         "state": "off"
                         }
                     ]
@@ -105,11 +73,11 @@
                     "time_ms": 100,
                     "leds": [
                         {
-                        "name": "cylon1",
+                        "name": "1",
                         "state": "off"
                         },
                         {
-                        "name": "cylon2",
+                        "name": "2",
                         "state": "on"
                         }
                     ]
@@ -118,11 +86,11 @@
                     "time_ms": 30,
                     "leds": [
                         {
-                        "name": "cylon2",
+                        "name": "2",
                         "state": "off"
                         },
                         {
-                        "name": "cylon3",
+                        "name": "3",
                         "state": "on"
                         }
                     ]
@@ -131,38 +99,12 @@
                     "time_ms": 100,
                     "leds": [
                         {
-                        "name": "cylon3",
+                        "name": "3",
                         "state": "off"
                         },
                         {
-                        "name": "cylon4",
+                        "name": "4",
                         "state": "on"
-                        }
-                    ]
-                },
-                {
-                    "time_ms": 300,
-                    "leds": [
-                        {
-                        "name": "cylon4",
-                        "state": "off"
-                        },
-                        {
-                        "name": "cylon5",
-                        "state": "on"
-                        }
-                    ]
-                },
-                {
-                    "time_ms": 100,
-                    "leds": [
-                        {
-                        "name": "cylon4",
-                        "state": "on"
-                        },
-                        {
-                        "name": "cylon5",
-                        "state": "off"
                         }
                     ]
                 },
@@ -170,11 +112,11 @@
                     "time_ms": 30,
                     "leds": [
                         {
-                        "name": "cylon3",
+                        "name": "3",
                         "state": "on"
                         },
                         {
-                        "name": "cylon4",
+                        "name": "4",
                         "state": "off"
                         }
                     ]
@@ -183,11 +125,11 @@
                     "time_ms": 100,
                     "leds": [
                         {
-                        "name": "cylon2",
+                        "name": "2",
                         "state": "on"
                         },
                         {
-                        "name": "cylon3",
+                        "name": "3",
                         "state": "off"
                         }
                     ]
@@ -196,23 +138,19 @@
             "end_state": {
                 "leds": [
                     {
-                    "name": "cylon1",
+                    "name": "1",
                     "state": "off"
                     },
                     {
-                    "name": "cylon2",
+                    "name": "2",
                     "state": "off"
                     },
                     {
-                    "name": "cylon3",
+                    "name": "3",
                     "state": "off"
                     },
                     {
-                    "name": "cylon4",
-                    "state": "off"
-                    },
-                    {
-                    "name": "cylon5",
+                    "name": "4",
                     "state": "off"
                     }
                 ]
