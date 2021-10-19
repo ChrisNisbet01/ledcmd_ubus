@@ -29,14 +29,18 @@ struct pattern_step_st
 struct led_pattern_st
 {
     char const * name;
-    struct avl_node node;
-
     bool repeat;
     unsigned play_count;
     size_t num_steps;
     struct pattern_step_st * steps;
     struct pattern_step_st start_step;
     struct pattern_step_st end_step;
+};
+
+struct led_daemon_led_pattern_st
+{
+    struct avl_node node;
+    struct led_pattern_st * led_pattern;
 };
 
 typedef void

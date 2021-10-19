@@ -1,6 +1,7 @@
 #include "led_patterns.h"
 #include "iterate_files.h"
 
+#include <lib_log/log.h>
 #include <lib_led/string_constants.h>
 #include <ubus_utils/ubus_utils.h>
 
@@ -73,6 +74,21 @@ done:
     return;
 }
 
+static void free_led_daemon_led_pattern(
+    struct led_daemon_led_pattern_st * const led_daemon_led_pattern)
+{
+    if (led_daemon_led_pattern == NULL)
+    {
+        goto done;
+    }
+
+    free_led_pattern(led_daemon_led_pattern->led_pattern);
+    free(led_daemon_led_pattern);
+
+done:
+    return;
+}
+
 static void
 led_patterns_free(struct led_patterns_st * const led_patterns)
 {
@@ -82,12 +98,12 @@ led_patterns_free(struct led_patterns_st * const led_patterns)
     }
 
     struct avl_tree * const tree = &led_patterns->all_patterns;
-    struct led_pattern_st * led_pattern;
-    struct led_pattern_st * tmp;
+    struct led_daemon_led_pattern_st * led_daemon_led_pattern;
+    struct led_daemon_led_pattern_st * tmp;
 
-    avl_remove_all_elements(tree, led_pattern, node, tmp)
+    avl_remove_all_elements(tree, led_daemon_led_pattern, node, tmp)
     {
-        free_led_pattern(led_pattern);
+        free_led_daemon_led_pattern(led_daemon_led_pattern);
     }
 
     free(led_patterns);
@@ -365,6 +381,9 @@ parse_led_pattern(struct blob_attr const * const attr)
         success = false;
         goto done;
     }
+
+    log_info("Load pattern: %s", pattern->name);
+
     pattern->repeat =
         blobmsg_get_bool_or_default(fields[PATTERN_REPEAT], false);
     pattern->play_count =
@@ -402,6 +421,7 @@ parse_led_pattern(struct blob_attr const * const attr)
 done:
     if (!success)
     {
+        log_error("Failed to load pattern");
         free_led_pattern(pattern);
         pattern = NULL;
     }
@@ -498,10 +518,13 @@ load_patterns_from_file(
     new_pattern_fn const new_pattern_cb,
     void * const user_ctx)
 {
+    log_info("Load patterns from file: %s", filename);
+
     json_object * const json_obj = json_object_from_file(filename);
 
     if (json_obj == NULL)
     {
+        log_error("Failed to load JSON file: %s", filename);
         goto done;
     }
 
@@ -517,26 +540,41 @@ static void
 new_pattern_cb(
     struct led_pattern_st * const led_pattern, void * const user_ctx)
 {
+    bool success;
     struct avl_tree * const tree = user_ctx;
+    struct led_daemon_led_pattern_st * const led_daemon_led_pattern =
+        calloc(1,  sizeof *led_daemon_led_pattern);
 
-    led_pattern->node.key = led_pattern->name;
-    if (avl_insert(tree, &led_pattern->node) != 0)
+    if (led_daemon_led_pattern == NULL)
     {
-        /*
-         * Failed to insert the pattern.
-         * Free it up.
-         * Log a message?
-         */
+        success = false;
+        goto done;
+    }
+
+    led_daemon_led_pattern->node.key = led_pattern->name;
+
+    if (avl_insert(tree, &led_daemon_led_pattern->node) != 0)
+    {
+        success = false;
+        goto done;
+    }
+
+    led_daemon_led_pattern->led_pattern = led_pattern;
+    success = true;
+
+done:
+    if (!success)
+    {
+        log_error("Failed to insert pattern: %s", led_pattern->name);
         free_led_pattern(led_pattern);
+        free_led_daemon_led_pattern(led_daemon_led_pattern);
     }
 }
 
 static void
 load_pattern_cb(char const * const filename, void * const user_ctx)
 {
-    struct avl_tree * const tree = user_ctx;
-
-    load_patterns_from_file(filename, new_pattern_cb, tree);
+    load_patterns_from_file(filename, new_pattern_cb, user_ctx);
 }
 
 static void
@@ -551,9 +589,9 @@ load_patterns_from_directory(
 
 struct led_pattern_st *
 led_pattern_lookup(
-    led_patterns_st const * const led_patterns,
-    char const * const pattern_name)
+    led_patterns_st const * const led_patterns, char const * const pattern_name)
 {
+    struct led_daemon_led_pattern_st * led_daemon_led_pattern;
     struct led_pattern_st * led_pattern;
 
     if (led_patterns == NULL)
@@ -562,8 +600,15 @@ led_pattern_lookup(
         goto done;
     }
 
-    led_pattern = avl_find_element(
-        &led_patterns->all_patterns, pattern_name, led_pattern, node);
+    led_daemon_led_pattern = avl_find_element(
+        &led_patterns->all_patterns, pattern_name, led_daemon_led_pattern, node);
+    if (led_daemon_led_pattern == NULL)
+    {
+        led_pattern = NULL;
+        goto done;
+    }
+
+    led_pattern = led_daemon_led_pattern->led_pattern;
 
 done:
     return led_pattern;
@@ -575,11 +620,11 @@ led_pattern_list(
     list_patterns_cb const cb,
     void * const user_ctx)
 {
-    struct led_pattern_st * led_pattern;
+    struct led_daemon_led_pattern_st * led_daemon_led_pattern;
 
-    avl_for_each_element(&led_patterns->all_patterns, led_pattern, node)
+    avl_for_each_element(&led_patterns->all_patterns, led_daemon_led_pattern, node)
     {
-        cb(led_pattern, user_ctx);
+        cb(led_daemon_led_pattern->led_pattern, user_ctx);
     }
 }
 
