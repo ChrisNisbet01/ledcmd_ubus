@@ -3,7 +3,7 @@
 
 #include "led_states.h"
 #include "led_priority_context.h"
-#include "led_pattern_list.h"
+#include "led_patterns.h"
 #include "flash_types.h"
 #include "platform_specific.h"
 #include "priorities.h"

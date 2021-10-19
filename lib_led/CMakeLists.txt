@@ -21,6 +21,7 @@ set(LIB_HEADERS
   include/${PROJECT_NAME}/lib_led_control.h
   include/${PROJECT_NAME}/lib_led_pattern.h
   include/${PROJECT_NAME}/string_constants.h
+  src/lib_led_private.h
 )
 
 SET(LIB_SOURCES 

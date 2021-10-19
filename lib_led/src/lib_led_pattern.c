@@ -29,12 +29,117 @@ struct ledcmd_led_pattern_ctx_st
     void * const cb_context;
 };
 
+struct led_pattern_st
+{
+    char const * name;
+    bool repeat;
+    unsigned play_count;
+};
+
+static void
+free_led_pattern(struct led_pattern_st const * const led_pattern)
+{
+    if (led_pattern == NULL)
+    {
+        goto done;
+    }
+    free(UNCONST(led_pattern->name));
+    free(UNCONST(led_pattern));
+
+done:
+    return;
+}
+
+static struct led_pattern_st *
+parse_led_pattern(struct blob_attr const * const attr)
+{
+    bool success;
+    struct led_pattern_st * pattern = NULL;
+    enum
+    {
+        PATTERN_NAME,
+        PATTERN_REPEAT,
+        PATTERN_PLAY_COUNT,
+        PATTERN_LED_PATTERN,
+        PATTERN_LED_END_STATE,
+        PATTERN_LED_START_STATE,
+        PATTERN_MAX__
+    };
+    struct blobmsg_policy const pattern_policy[PATTERN_MAX__] =
+    {
+        [PATTERN_NAME] =
+        { .name = _led_pattern_name, .type = BLOBMSG_TYPE_STRING },
+        [PATTERN_REPEAT] =
+        { .name = _led_pattern_repeat, .type = BLOBMSG_TYPE_BOOL },
+        [PATTERN_PLAY_COUNT] =
+        { .name = _led_pattern_play_count, .type = BLOBMSG_TYPE_INT32 },
+        [PATTERN_LED_PATTERN] =
+        { .name = _led_pattern_pattern, .type = BLOBMSG_TYPE_ARRAY },
+        [PATTERN_LED_END_STATE] =
+        { .name = _led_pattern_end_state, .type = BLOBMSG_TYPE_TABLE },
+        [PATTERN_LED_START_STATE] =
+        { .name = _led_pattern_start_state, .type = BLOBMSG_TYPE_TABLE }
+    };
+    struct blob_attr * fields[PATTERN_MAX__];
+
+    blobmsg_parse(pattern_policy, ARRAY_SIZE(pattern_policy), fields,
+                  blobmsg_data(attr), blobmsg_data_len(attr));
+
+    if (fields[PATTERN_NAME] == NULL)
+    {
+        success = false;
+        goto done;
+    }
+
+    pattern = calloc(1, sizeof *pattern);
+    if (pattern == NULL)
+    {
+        success = false;
+        goto done;
+    }
+
+    pattern->name = strdup(blobmsg_get_string(fields[PATTERN_NAME]));
+    if (pattern->name == NULL)
+    {
+        success = false;
+        goto done;
+    }
+    pattern->repeat =
+        blobmsg_get_bool_or_default(fields[PATTERN_REPEAT], false);
+    pattern->play_count =
+        blobmsg_get_u32_or_default(
+            fields[PATTERN_PLAY_COUNT], pattern->repeat ? 0 : 1);
+
+    if (fields[PATTERN_LED_END_STATE] != NULL)
+    {
+        /* TODO: */
+    }
+
+    if (fields[PATTERN_LED_START_STATE] != NULL)
+    {
+        /* TODO: */
+    }
+
+    /* TODO: Parse pattern steps. */
+
+    success = true;
+
+done:
+    if (!success)
+    {
+        free_led_pattern(pattern);
+        pattern = NULL;
+    }
+
+    return pattern;
+}
+
 static void
 process_led_pattern_response(
     struct blob_attr const * const array_blob,
     struct ledcmd_led_pattern_ctx_st * const ctx)
 {
-    if (!blobmsg_array_is_type(array_blob, BLOBMSG_TYPE_STRING))
+    if (!blobmsg_array_is_type(array_blob, BLOBMSG_TYPE_TABLE))
     {
         goto done;
     }
@@ -51,7 +156,13 @@ process_led_pattern_response(
 
     blobmsg_for_each_attr(cur, array_blob, rem)
     {
-        ctx->cb(blobmsg_get_string(cur), ctx->cb_context);
+        struct led_pattern_st const * const pattern = parse_led_pattern(cur);
+
+        if (pattern != NULL)
+        {
+            ctx->cb(pattern->name, ctx->cb_context);
+            free_led_pattern(pattern);
+        }
     }
 
 done:

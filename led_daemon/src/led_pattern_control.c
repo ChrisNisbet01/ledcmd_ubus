@@ -276,8 +276,7 @@ lookup_playing_pattern(
     TAILQ_FOREACH(pattern_context, &patterns_context->playing_patterns, entry)
     {
         bool const found_pattern =
-            strcasecmp(led_pattern_name(pattern_context->led_pattern),
-                       pattern_name) == 0;
+            strcasecmp(pattern_context->led_pattern->name, pattern_name) == 0;
 
         if (found_pattern)
         {
@@ -584,7 +583,7 @@ led_pattern_list_playing_patterns(
 
     TAILQ_FOREACH(pattern_context, &patterns_context->playing_patterns, entry)
     {
-        cb(led_pattern_name(pattern_context->led_pattern), user_ctx);
+        cb(pattern_context->led_pattern, user_ctx);
     }
 }
 

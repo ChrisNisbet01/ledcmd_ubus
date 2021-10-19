@@ -1001,12 +1001,98 @@ pattern_stop_handler(
     return result;
 }
 
+static void append_led_pattern_led_state(
+    struct blob_buf * const response, struct led_state_st const * const led_state)
+{
+    void * const led_cookie = blobmsg_open_table(response, NULL);
+
+    blobmsg_add_string(response, _led_name, led_state->led_name);
+    blobmsg_add_string(response, _led_state, led_state_query_name(led_state->led_state));
+    if (led_state->priority != NULL)
+    {
+        blobmsg_add_string(response, _led_priority, led_state->priority);
+    }
+
+    blobmsg_close_table(response, led_cookie);
+}
+
+static void append_led_pattern_led_step(
+    struct blob_buf * const response, struct pattern_step_st const * const step)
+{
+    void * const step_cookie = blobmsg_open_table(response, NULL);
+
+    blobmsg_add_u32(response, _led_pattern_step_time_ms, step->time_ms);
+
+    void * const step_leds_cookie = blobmsg_open_array(response, _led_pattern_step_leds);
+
+    for (size_t i = 0; i < step->num_leds; i++)
+    {
+        struct led_state_st const * const led_state = &step->leds[i];
+
+        append_led_pattern_led_state(response, led_state);
+    }
+
+    blobmsg_close_array(response, step_leds_cookie);
+
+    blobmsg_close_table(response, step_cookie);
+}
+
 static void
-append_pattern_cb(char const * const pattern_name, void * const user_ctx)
+append_pattern_steps(
+    struct blob_buf * const response, struct led_pattern_st const * const pattern)
+{
+    void * const pattern_cookie = blobmsg_open_array(response, _led_pattern_pattern);
+
+    for (size_t i = 0; i < pattern->num_steps; i++)
+    {
+        struct pattern_step_st const * const step = &pattern->steps[i];
+
+        append_led_pattern_led_step(response, step);
+    }
+    blobmsg_close_array(response, pattern_cookie);
+}
+
+static void
+append_start_step(
+    struct blob_buf * const response, struct led_pattern_st const * const pattern)
+{
+    if (pattern->start_step.num_leds > 0)
+    {
+        append_led_pattern_led_step(response, &pattern->start_step);
+    }
+}
+
+static void
+append_end_step(
+    struct blob_buf * const response, struct led_pattern_st const * const pattern)
+{
+    if (pattern->end_step.num_leds > 0)
+    {
+        append_led_pattern_led_step(response, &pattern->end_step);
+    }
+}
+
+static void
+append_pattern_cb(struct led_pattern_st const * const pattern, void * const user_ctx)
 {
     struct blob_buf * const response = user_ctx;
+    void * const cookie = blobmsg_open_table(response, NULL);
 
-    blobmsg_add_string(response, NULL, pattern_name);
+    blobmsg_add_string(response, _led_pattern_name, pattern->name);
+    if (pattern->repeat)
+    {
+        blobmsg_add_u8(response, _led_pattern_repeat, pattern->repeat);
+    }
+    else
+    {
+        blobmsg_add_u32(response, _led_pattern_play_count, pattern->play_count);
+    }
+
+    append_pattern_steps(response, pattern);
+    append_start_step(response, pattern);
+    append_end_step(response, pattern);
+
+    blobmsg_close_table(response, cookie);
 }
 
 static void

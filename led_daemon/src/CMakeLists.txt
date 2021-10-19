@@ -21,7 +21,6 @@ set(PROJECT_HEADERS
   ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/led_daemon_ubus.h
   ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/led_lock.h
   ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/led_pattern_control.h
-  ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/led_pattern_list.h
   ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/led_patterns.h
   ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/led_priorities.h
   ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME}/led_priority_context.h

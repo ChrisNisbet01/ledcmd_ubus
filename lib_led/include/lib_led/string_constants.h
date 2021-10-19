@@ -63,5 +63,8 @@ extern char const _led_pattern_play_count[];
 extern char const _led_alias_name[];
 extern char const _led_alias_aliases[];
 
+extern char const _led_pattern_step_time_ms[];
+extern char const _led_pattern_step_leds[];
+
 #endif /* STRING_CONSTANTS_H__ */
 

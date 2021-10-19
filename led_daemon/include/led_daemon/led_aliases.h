@@ -2,7 +2,6 @@
 #define LED_ALIASES_H__
 
 #include "led_states.h"
-#include "led_pattern_list.h"
 
 #include <libubox/uloop.h>
 #include <libubox/avl.h>

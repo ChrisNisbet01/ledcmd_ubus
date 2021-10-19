@@ -2,7 +2,6 @@
 #define LED_PATTERNS_H__
 
 #include "led_states.h"
-#include "led_pattern_list.h"
 
 #include <libubox/uloop.h>
 #include <libubox/avl.h>
@@ -40,6 +39,10 @@ struct led_pattern_st
     struct pattern_step_st end_step;
 };
 
+typedef void
+(*list_patterns_cb)(
+    struct led_pattern_st const * const led_pattern, void * const user_ctx);
+
 char const *
 led_pattern_name(struct led_pattern_st const * led_pattern);
 
@@ -49,9 +52,7 @@ led_pattern_lookup(
 
 void
 led_pattern_list(
-    led_patterns_st const * led_patterns,
-    list_patterns_cb cb,
-    void * user_ctx);
+    led_patterns_st const * led_patterns, list_patterns_cb cb, void * user_ctx);
 
 void
 free_patterns(led_patterns_st const * led_patterns);

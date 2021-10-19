@@ -220,9 +220,9 @@ parse_pattern_step(
     struct blobmsg_policy const step_policy[STEP_MAX__] =
     {
         [STEP_TIME_MS] =
-        { .name = "time_ms", .type = BLOBMSG_TYPE_INT32 },
+        { .name = _led_pattern_step_time_ms, .type = BLOBMSG_TYPE_INT32 },
         [STEP_LEDS] =
-        { .name = "leds", .type = BLOBMSG_TYPE_ARRAY }
+        { .name = _led_pattern_step_leds, .type = BLOBMSG_TYPE_ARRAY }
     };
     struct blob_attr * fields[STEP_MAX__];
 
@@ -549,12 +549,6 @@ load_patterns_from_directory(
     iterate_files(path, load_pattern_cb, tree);
 }
 
-char const *
-led_pattern_name(struct led_pattern_st const * const led_pattern)
-{
-    return led_pattern->name;
-}
-
 struct led_pattern_st *
 led_pattern_lookup(
     led_patterns_st const * const led_patterns,
@@ -585,7 +579,7 @@ led_pattern_list(
 
     avl_for_each_element(&led_patterns->all_patterns, led_pattern, node)
     {
-        cb(led_pattern->name, user_ctx);
+        cb(led_pattern, user_ctx);
     }
 }
 

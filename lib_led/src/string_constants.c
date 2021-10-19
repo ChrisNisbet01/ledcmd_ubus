@@ -65,3 +65,6 @@ char const _led_pattern_play_count[] = "play_count";
 char const _led_alias_name[] = "name";
 char const _led_alias_aliases[] = "aliases";
 
+char const _led_pattern_step_time_ms[] = "time_ms";
+char const _led_pattern_step_leds[] = "leds";
+
