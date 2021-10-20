@@ -1217,6 +1217,14 @@ ubus_connected(struct ubus_connection_ctx_st * const connection_context)
     ubus_add_uloop(ubus_ctx);
 }
 
+static void
+ubus_disconnected(struct ubus_connection_ctx_st * const connection_context)
+{
+    UNUSED_ARG(connection_context);
+
+    log_info("Disconnected from ubus");
+}
+
 void
 ledcmd_ubus_deinit(
     struct ledcmd_ubus_context_st * const ledcmd_ubus_context)
@@ -1254,7 +1262,8 @@ ledcmd_ubus_init(
         &ledcmd_ubus_context->ubus_connection,
         ubus_path,
         ubus_connected,
-        ubus_reconnected);
+        ubus_reconnected,
+        ubus_disconnected);
 
 done:
     return ledcmd_ubus_context;
