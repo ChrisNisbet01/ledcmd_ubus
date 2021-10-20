@@ -3,8 +3,8 @@
 
 #include <lib_log/log.h>
 #include <lib_led/string_constants.h>
-#include <ubus_utils/ubus_utils.h>
 
+#include <ubus_utils/ubus_utils.h>
 #include <json-c/json.h>
 #include <libubox/blobmsg_json.h>
 #include <linux/limits.h>
@@ -422,6 +422,7 @@ done:
     if (!success)
     {
         log_error("Failed to load pattern");
+
         free_led_pattern(pattern);
         pattern = NULL;
     }
@@ -525,6 +526,7 @@ load_patterns_from_file(
     if (json_obj == NULL)
     {
         log_error("Failed to load JSON file: %s", filename);
+
         goto done;
     }
 
@@ -566,6 +568,7 @@ done:
     if (!success)
     {
         log_error("Failed to insert pattern: %s", led_pattern->name);
+
         free_led_pattern(led_pattern);
         free_led_daemon_led_pattern(led_daemon_led_pattern);
     }
@@ -631,6 +634,8 @@ led_pattern_list(
 void
 free_patterns(struct led_patterns_st const * const led_patterns)
 {
+    log_info("Unload patterns");
+
     led_patterns_free(UNCONST(led_patterns));
 }
 
@@ -645,8 +650,9 @@ load_patterns(char const * const patterns_directory)
         goto done;
     }
 
-    led_patterns = calloc(1, sizeof *led_patterns);
+    log_info("Load patterns from: %s", patterns_directory);
 
+    led_patterns = calloc(1, sizeof *led_patterns);
     if (led_patterns == NULL)
     {
         goto done;

@@ -4,9 +4,11 @@
 
 #include <ubus_utils/ubus_utils.h>
 #include <lib_led/string_constants.h>
-#include <libubox/avl.h>
-#include <string.h>
+#include <lib_log/log.h>
 
+#include <libubox/avl.h>
+
+#include <string.h>
 #include <sys/queue.h>
 
 struct led_patterns_context_st;
@@ -130,6 +132,8 @@ done:
 static void
 led_pattern_stop(struct led_pattern_context_st * const pattern_context)
 {
+    log_info("Stop pattern: %s", pattern_context->led_pattern->name);
+
     struct pattern_step_st const * const end_step =
         &pattern_context->led_pattern->end_step;
 
@@ -228,6 +232,9 @@ led_pattern_start(struct led_pattern_context_st * const pattern_context)
 {
     struct led_pattern_st const * const led_pattern =
         pattern_context->led_pattern;
+
+    log_info("Start pattern: %s", led_pattern->name);
+
     bool const start_step_required = led_pattern->start_step.num_leds > 0;
     bool const start_step_completed =
         !start_step_required || led_pattern_play_start_step(pattern_context);
@@ -558,11 +565,13 @@ led_pattern_play_pattern(
         success = false;
         goto done;
     }
+
     /*
      * It isn't desirable for multiple patterns to control the same LEDS,
      * so stop any other patterns that use the same LEDs that this pattern uses.
      * The priority must also match.
      */
+
     stop_other_patterns_using_this_patterns_leds(patterns_context, led_pattern);
     pattern_context_initialise(patterns_context, pattern_context, led_pattern);
     led_pattern_start(pattern_context);

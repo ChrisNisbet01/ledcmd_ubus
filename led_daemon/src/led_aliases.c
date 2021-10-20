@@ -2,10 +2,12 @@
 #include "iterate_files.h"
 
 #include <lib_led/string_constants.h>
-#include <ubus_utils/ubus_utils.h>
+#include <lib_log/log.h>
 
+#include <ubus_utils/ubus_utils.h>
 #include <json-c/json.h>
 #include <libubox/blobmsg_json.h>
+
 #include <linux/limits.h>
 
 struct led_alias_st
@@ -193,6 +195,8 @@ parse_led_alias(struct blob_attr const * const attr)
         goto done;
     }
 
+    log_info("Load alias: %s", alias->name);
+
     if (!parse_alias_names(alias, fields[ALIAS_ALIASES]))
     {
         success = false;
@@ -299,10 +303,14 @@ load_aliases_from_file(
     new_alias_fn const new_alias_cb,
     void * const user_ctx)
 {
+    log_info("Load aliases from file: %s", filename);
+
     json_object * const json_obj = json_object_from_file(filename);
 
     if (json_obj == NULL)
     {
+        log_error("Failed to load JSON file: %s", filename);
+
         goto done;
     }
 
@@ -325,8 +333,9 @@ new_alias_cb(struct led_alias_st * const led_alias, void * const user_ctx)
         /*
          * Failed to insert the alias.
          * Free it up.
-         * Log a message?
          */
+        log_error("Failed to insert alias: %s", led_alias->name);
+
         free_led_alias(led_alias);
     }
 }
@@ -444,8 +453,9 @@ led_aliases_load(char const * const aliases_directory)
         goto done;
     }
 
-    led_aliases = calloc(1, sizeof *led_aliases);
+    log_info("Load aliases from: %s", aliases_directory);
 
+    led_aliases = calloc(1, sizeof *led_aliases);
     if (led_aliases == NULL)
     {
         goto done;
