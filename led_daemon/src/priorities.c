@@ -188,3 +188,4 @@ priority_context_allocate(size_t const num_priorities)
 done:
     return priority_context;
 }
+

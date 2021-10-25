@@ -16,30 +16,38 @@ struct flash_type_st
 
 static struct flash_type_st const flash_types[] =
 {
-    [LED_FLASH_TYPE_NONE] = {
+    [LED_FLASH_TYPE_NONE] =
+    {
         .name = _led_flash_type_none,
-        .flash_times = {
+        .flash_times =
+        {
             .on_time_ms = 0,
             .off_time_ms = 0
         }
     },
-    [LED_FLASH_TYPE_ONE_SHOT] = {
+    [LED_FLASH_TYPE_ONE_SHOT] =
+    {
         .name = _led_flash_type_one_shot,
-        .flash_times = {
+        .flash_times =
+        {
             .on_time_ms = 50,
             .off_time_ms = 0
         }
     },
-    [LED_FLASH_TYPE_SLOW] = {
+    [LED_FLASH_TYPE_SLOW] =
+    {
         .name = _led_flash_type_slow,
-        .flash_times = {
+        .flash_times =
+        {
             .on_time_ms = 500,
             .off_time_ms = 500
         }
     },
-    [LED_FLASH_TYPE_FAST] = {
+    [LED_FLASH_TYPE_FAST] =
+    {
         .name = _led_flash_type_fast,
-        .flash_times = {
+        .flash_times =
+        {
             .on_time_ms = 250,
             .off_time_ms = 250
         }

@@ -480,7 +480,8 @@ set_aliased_led_states(
 
     if (led_alias != NULL)
     {
-        struct set_state_alias_st set_state_alias = {
+        struct set_state_alias_st set_state_alias =
+        {
             .context = context,
             .led_handle = led_handle,
             .request = request,
@@ -544,7 +545,8 @@ get_aliased_led_states(
 
     if (led_alias != NULL)
     {
-        struct get_state_alias_st get_state_alias = {
+        struct get_state_alias_st get_state_alias =
+        {
             .context = context,
             .led_handle = led_handle,
             .result_cb = result_cb,
@@ -622,7 +624,8 @@ deactivate_aliased_leds(
 
     if (led_alias != NULL)
     {
-        struct activate_alias_st const activate_alias = {
+        struct activate_alias_st const activate_alias =
+        {
             .context = context,
             .led_handle = led_handle,
             .priority = priority,
@@ -692,7 +695,8 @@ activate_aliased_leds(
 
     if (led_alias != NULL)
     {
-        struct activate_alias_st const activate_alias = {
+        struct activate_alias_st const activate_alias =
+        {
             .context = context,
             .led_handle = led_handle,
             .priority = priority,
@@ -734,7 +738,8 @@ static void list_all_aliased_leds(
     list_leds_cb const result_cb,
     void * const result_context)
 {
-    struct list_aliased_leds_st const aliased_leds = {
+    struct list_aliased_leds_st const aliased_leds =
+    {
         .result_cb = result_cb,
         .result_context = result_context
     };
@@ -784,7 +789,8 @@ compare_led_ctx_to_aliased_leds(
         goto done;
     }
 
-    struct compare_aliased_leds_st compare_aliased_leds = {
+    struct compare_aliased_leds_st compare_aliased_leds =
+    {
         .context = context,
         .led_ctx = led_ctx,
         .found_match = false
@@ -884,7 +890,8 @@ compare_led_to_aliased_leds(
         goto done;
     }
 
-    struct led_to_aliased_leds_st led_to_aliased_leds = {
+    struct led_to_aliased_leds_st led_to_aliased_leds =
+    {
         .context = context,
         .led_b_name = led_b_name,
         .found_match = false
@@ -1692,7 +1699,8 @@ ledcmd_init(
         goto done;
     }
 
-    static struct led_ops_st const ops = {
+    static struct led_ops_st const ops =
+    {
         .open = led_ops_open,
         .close = led_ops_close,
         .set_state = led_ops_set_state,

@@ -311,11 +311,11 @@ led_used_by_step(
         struct led_ops_st const * const led_ops = patterns_context->led_ops;
         bool const matches =
             led_ops->compare_leds(
-            patterns_context->led_ops_context,
-            led_state->led_name,
-            led_state->priority,
-            a->led_name,
-            a->priority);
+                patterns_context->led_ops_context,
+                led_state->led_name,
+                led_state->priority,
+                a->led_name,
+                a->priority);
 
         if (matches)
         {
@@ -338,8 +338,7 @@ led_used_by_pattern(
 {
     bool used_by_pattern;
 
-    if (led_used_by_step(
-            patterns_context, led_state, &pattern->start_step))
+    if (led_used_by_step(patterns_context, led_state, &pattern->start_step))
     {
         used_by_pattern = true;
         goto done;

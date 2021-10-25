@@ -144,7 +144,8 @@ process_get_state_attr(
         LED_NAME,
         LED_MAX__
     };
-    struct blobmsg_policy const get_led_policy[LED_MAX__] = {
+    struct blobmsg_policy const get_led_policy[LED_MAX__] =
+    {
         [LED_NAME] = { .name = _led_name, .type = BLOBMSG_TYPE_STRING }
     };
     struct blob_attr * fields[LED_MAX__];
@@ -165,7 +166,8 @@ enum
     GET_MAX__
 };
 
-static struct blobmsg_policy const get_state_policy[GET_MAX__] = {
+static struct blobmsg_policy const get_state_policy[GET_MAX__] =
+{
     [GET_LEDS] = { .name = _led_leds, .type = BLOBMSG_TYPE_ARRAY }
 };
 
@@ -266,7 +268,8 @@ populate_led_set_state_request(
         FLASH_TIME_MS,
         LED_MAX__
     };
-    struct blobmsg_policy const set_led_policy[LED_MAX__] = {
+    struct blobmsg_policy const set_led_policy[LED_MAX__] =
+    {
         [LED_NAME] =
         { .name = _led_name, .type = BLOBMSG_TYPE_STRING },
         [LED_STATE] =
@@ -342,7 +345,8 @@ enum
     SET_MAX__
 };
 
-static struct blobmsg_policy const set_state_policy[SET_MAX__] = {
+static struct blobmsg_policy const set_state_policy[SET_MAX__] =
+{
     [SET_LEDS] = { .name = _led_leds, .type = BLOBMSG_TYPE_ARRAY }
 };
 
@@ -483,7 +487,8 @@ process_activate_attr(
         LOCK_ID,
         LED_MAX__
     };
-    struct blobmsg_policy const activate_led_policy[LED_MAX__] = {
+    struct blobmsg_policy const activate_led_policy[LED_MAX__] =
+    {
         [LED_NAME] = { .name = _led_name, .type = BLOBMSG_TYPE_STRING },
         [LED_PRIORITY] = { .name = _led_priority, .type = BLOBMSG_TYPE_STRING },
         [LOCK_ID] = { .name = _led_lock_id, .type = BLOBMSG_TYPE_STRING }
@@ -508,7 +513,8 @@ enum
     ACTIVATE_MAX__
 };
 
-static struct blobmsg_policy const activate_policy[ACTIVATE_MAX__] = {
+static struct blobmsg_policy const activate_policy[ACTIVATE_MAX__] =
+{
     [ACTIVATE_LEDS] = { .name = _led_leds, .type = BLOBMSG_TYPE_ARRAY }
 };
 
@@ -650,7 +656,8 @@ process_deactivate_attr(
         LOCK_ID,
         LOCK_MAX__
     };
-    struct blobmsg_policy const deactivate_led_policy[LOCK_MAX__] = {
+    struct blobmsg_policy const deactivate_led_policy[LOCK_MAX__] =
+    {
         [LED_NAME] =
         { .name = _led_name, .type = BLOBMSG_TYPE_STRING },
         [LED_PRIORITY] =
@@ -678,7 +685,8 @@ enum
     DEACTIVATE_MAX__
 };
 
-static struct blobmsg_policy const deactivate_policy[DEACTIVATE_MAX__] = {
+static struct blobmsg_policy const deactivate_policy[DEACTIVATE_MAX__] =
+{
     [DEACTIVATE_LEDS] = { .name = _led_leds, .type = BLOBMSG_TYPE_ARRAY }
 };
 
@@ -867,7 +875,8 @@ enum
     PATTERN_PLAY_MAX__
 };
 
-static struct blobmsg_policy const pattern_play_policy[PATTERN_PLAY_MAX__] = {
+static struct blobmsg_policy const pattern_play_policy[PATTERN_PLAY_MAX__] =
+{
     [PATTERN_PLAY_NAME] =
     { .name = _led_pattern_name, .type = BLOBMSG_TYPE_STRING },
     [PATTERN_RETRIGGER] =
@@ -945,7 +954,8 @@ enum
     PATTERN_STOP_MAX__
 };
 
-static struct blobmsg_policy const pattern_stop_policy[PATTERN_STOP_MAX__] = {
+static struct blobmsg_policy const pattern_stop_policy[PATTERN_STOP_MAX__] =
+{
     [PATTERN_STOP_NAME] =
     { .name = _led_pattern_name, .type = BLOBMSG_TYPE_STRING }
 };
@@ -1175,7 +1185,8 @@ pattern_list_playing_handler(
     return UBUS_STATUS_OK;
 }
 
-static struct ubus_method const ledd_methods[] = {
+static struct ubus_method const ledd_methods[] =
+{
     UBUS_METHOD(_led_get, get_state_handler, get_state_policy),
     UBUS_METHOD(_led_set, set_state_handler, set_state_policy),
     UBUS_METHOD_NOARG(_led_list, list_led_names_handler),
@@ -1191,7 +1202,8 @@ static struct ubus_method const ledd_methods[] = {
 static struct ubus_object_type ledd_object_type =
     UBUS_OBJECT_TYPE(_led_ledcmd, ledd_methods);
 
-static struct ubus_object ledd_object = {
+static struct ubus_object ledd_object =
+{
     .name = _led_ledcmd,
     .type = &ledd_object_type,
     .methods = ledd_methods,
