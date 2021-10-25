@@ -209,10 +209,7 @@ led_list_patterns(
     };
 
     send_ubus_led_pattern_request(
-        ledcmd_ctx,
-        _led_pattern_list,
-        led_list_pattern_response_handler,
-        &ctx);
+        ledcmd_ctx, _led_pattern_list, led_list_pattern_response_handler, &ctx);
 
     return ctx.success;
 }
@@ -231,10 +228,7 @@ led_list_playing_patterns(
     };
 
     send_ubus_led_pattern_request(
-        ledcmd_ctx,
-        _led_pattern_list_playing,
-        led_list_pattern_response_handler,
-        &ctx);
+        ledcmd_ctx, _led_pattern_list_playing, led_list_pattern_response_handler, &ctx);
 
     return ctx.success;
 }

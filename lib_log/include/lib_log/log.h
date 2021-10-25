@@ -10,7 +10,7 @@ int
 log_info(char const *fmt, ...);
 
 bool
-logging_plugin_load(char const *plugin_path, char const *progname, int a, int b);
+logging_plugin_load(char const * plugin_path, char const * progname, int a, int b);
 
 void
 logging_plugin_unload(void);

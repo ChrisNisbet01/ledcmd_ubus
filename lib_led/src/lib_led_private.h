@@ -10,11 +10,11 @@ typedef void (*ubus_cb)
 
 bool
 ledcmd_ubus_invoke(
-    char const * const cmd,
-    struct blob_buf * const msg,
-    ubus_cb const cb,
-    void * const cb_context,
-    struct ledcmd_ctx_st const * const ledcmd_ctx);
+    char const * cmd,
+    struct blob_buf * msg,
+    ubus_cb cb,
+    void * cb_context,
+    struct ledcmd_ctx_st const * ledcmd_ctx);
 
 #endif /* __LIB_LED_PRIVATE_H__ */
 

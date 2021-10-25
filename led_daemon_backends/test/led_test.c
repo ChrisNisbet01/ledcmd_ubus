@@ -138,7 +138,7 @@ set_led_state(
 }
 
 static led_handle_st *
-led_open()
+led_open(void)
 {
     static int const dummy = 0;
     /* Nothing to do. Don't return NULL though, as that indicates error. */
@@ -204,7 +204,7 @@ get_led_colour(led_st const * const led)
 }
 
 static platform_leds_st *
-leds_init()
+leds_init(void)
 {
     static int const dummy = 0;
     /* Nothing to do. Don't return NULL though as that indicates error. */

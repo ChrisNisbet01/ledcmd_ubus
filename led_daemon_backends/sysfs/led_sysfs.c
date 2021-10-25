@@ -40,7 +40,7 @@ struct platform_leds_st
 };
 
 static DIR *
-foreach_led_names_init()
+foreach_led_names_init(void)
 {
     DIR * dir;
 
@@ -95,8 +95,7 @@ foreach_led_names_finish(DIR * const dir)
 
 static bool
 append_led_name(
-    struct platform_leds_st * const platform_leds,
-    char const * const led_name)
+    struct platform_leds_st * const platform_leds, char const * const led_name)
 {
     bool success;
     size_t const new_led_count = platform_leds->count + 1;
@@ -120,7 +119,8 @@ done:
     return success;
 }
 
-static void append_led_names(struct platform_leds_st * const platform_leds)
+static void
+append_led_names(struct platform_leds_st * const platform_leds)
 {
     DIR * const dir = foreach_led_names_init();
 
@@ -494,7 +494,7 @@ done:
 }
 
 static led_handle_st *
-led_open()
+led_open(void)
 {
     static int const dummy = 0;
     /* Nothing to do. Don't return NULL though as that indicates error. */
@@ -559,7 +559,7 @@ get_led_colour(led_st const * const led)
 }
 
 static platform_leds_st *
-leds_init()
+leds_init(void)
 {
     /*
      * Create whatever context is required and return an opaque pointer to it

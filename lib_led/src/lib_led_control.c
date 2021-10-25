@@ -60,13 +60,8 @@ send_ubus_led_request(
 
     void * const cookie = blobmsg_open_array(&msg, _led_leds);
 
-    append_led_request_data(led_name,
-                            state,
-                            lock_id,
-                            led_priority,
-                            flash_type,
-                            flash_time_ms,
-                            &msg);
+    append_led_request_data(
+        led_name, state, lock_id, led_priority, flash_type, flash_time_ms, &msg);
     blobmsg_close_array(&msg, cookie);
 
     bool const success = ledcmd_ubus_invoke(cmd, &msg, cb, cb_context, ctx);
@@ -208,8 +203,7 @@ struct ledcmd_names_ctx_st
 
 static void
 process_led_names_response(
-    struct blob_attr const * const array_blob,
-    struct ledcmd_names_ctx_st * const ctx)
+    struct blob_attr const * const array_blob, struct ledcmd_names_ctx_st * const ctx)
 {
     if (!blobmsg_array_is_type(array_blob, BLOBMSG_TYPE_TABLE))
     {
@@ -293,10 +287,8 @@ led_get_names(
     struct blob_buf msg;
 
     blob_buf_full_init(&msg, 0);
-    ledcmd_ubus_invoke(_led_list,
-                       &msg,
-                       get_led_names_response_handler, &ctx,
-                       ledcmd_ctx);
+    ledcmd_ubus_invoke(
+        _led_list, &msg, get_led_names_response_handler, &ctx, ledcmd_ctx);
     blob_buf_free(&msg);
 
     return ctx.success;
@@ -397,7 +389,8 @@ struct ledcmd_led_ctx_st
     void * const cb_context;
 };
 
-static void populate_get_set_result(
+static void
+populate_get_set_result(
     struct led_get_set_result_st * const result,
     struct blob_attr * const response)
 {

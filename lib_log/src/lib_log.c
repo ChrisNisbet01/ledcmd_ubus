@@ -135,7 +135,7 @@ done:
 }
 
 void
-logging_plugin_unload()
+logging_plugin_unload(void)
 {
     if (logging_context == NULL)
     {

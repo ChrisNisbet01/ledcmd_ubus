@@ -9,7 +9,7 @@ typedef void (*led_list_patterns_cb)(
     char const * pattern_name, void * user_context);
 
 typedef void (*led_play_pattern_cb)(
-    bool const success, char const * const error_msg, void * const user_ctx);
+    bool const success, char const * error_msg, void * user_ctx);
 
 bool
 led_list_patterns(

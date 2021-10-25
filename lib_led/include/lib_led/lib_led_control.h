@@ -44,7 +44,7 @@ led_activate_or_deactivate(
     ledcmd_ctx_st const * ledcmd_ctx,
     bool lock_it,
     char const * led_name,
-    char const * const led_priority,
+    char const * led_priority,
     char const * lock_id,
     led_lock_result_cb cb,
     void * cb_context);
